@@ -1,14 +1,12 @@
-package ma.entraide.handicap.Controller;
+package ma.entraide.formationcentres.Controller;
 
 
-import ma.entraide.handicap.Entity.AuthRequest;
-import ma.entraide.handicap.Entity.RequestBodyObject;
-import ma.entraide.handicap.Entity.UserInfo;
-import ma.entraide.handicap.Service.JwtService;
-import ma.entraide.handicap.Service.LogsConnexionService;
-import ma.entraide.handicap.Service.UserInfoService;
+import ma.entraide.formationcentres.Entity.AuthRequest;
+import ma.entraide.formationcentres.Entity.RequestBodyObject;
+import ma.entraide.formationcentres.Entity.UserInfo;
+import ma.entraide.formationcentres.Service.JwtService;
+import ma.entraide.formationcentres.Service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,8 +28,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtService jwtService;
-    @Autowired
-    private LogsConnexionService logsConnexionService;
+
 
     @GetMapping("/welcome")
     public String welcome(){
@@ -57,8 +54,6 @@ public class UserController {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
             if(authenticate.isAuthenticated()){
                 UserInfo userInfo = userInfoService.findUserByUsername(authRequest.getEmail());
-                logsConnexionService.addLogsConnexion(userInfo, ip, device);
-                System.out.println(device);
                 return ResponseEntity.ok(jwtService.generateToken(authRequest.getEmail()));
             }else {
                 throw new UsernameNotFoundException("Invalid user request");

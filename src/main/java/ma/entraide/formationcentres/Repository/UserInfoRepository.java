@@ -1,7 +1,7 @@
-package ma.entraide.handicap.Repository;
+package ma.entraide.formationcentres.Repository;
 
 
-import ma.entraide.handicap.Entity.UserInfo;
+import ma.entraide.formationcentres.Entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

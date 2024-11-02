@@ -1,9 +1,9 @@
-package ma.entraide.handicap.Service;
+package ma.entraide.formationcentres.Service;
 
 
-import ma.entraide.handicap.Entity.Province;
-import ma.entraide.handicap.Entity.UserInfo;
-import ma.entraide.handicap.Repository.UserInfoRepository;
+import ma.entraide.formationcentres.Entity.Province;
+import ma.entraide.formationcentres.Entity.UserInfo;
+import ma.entraide.formationcentres.Repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;

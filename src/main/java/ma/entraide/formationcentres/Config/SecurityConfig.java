@@ -1,8 +1,8 @@
-package ma.entraide.handicap.Config;
+package ma.entraide.formationcentres.Config;
 
 
-import ma.entraide.handicap.Filter.JwtFilter;
-import ma.entraide.handicap.Service.UserInfoService;
+import ma.entraide.formationcentres.Filter.JwtFilter;
+import ma.entraide.formationcentres.Service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,7 @@ public class SecurityConfig {
         return httpSecurity.csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/auth/welcome","/auth/addUser","/auth/login", "/region/all" ,
-                                "province/region/{id}","province/all","demande/downloadDemande/{id}", "demande/downloadQr/{id}")
+                                "province/region/{id}","province/all")
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

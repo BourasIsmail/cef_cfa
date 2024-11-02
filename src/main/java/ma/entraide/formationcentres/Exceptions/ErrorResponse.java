@@ -1,4 +1,4 @@
-package ma.entraide.handicap.Exceptions;
+package ma.entraide.formationcentres.Exceptions;
 
 public class ErrorResponse {
     private String message;

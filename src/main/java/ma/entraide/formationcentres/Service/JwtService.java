@@ -1,4 +1,4 @@
-package ma.entraide.handicap.Service;
+package ma.entraide.formationcentres.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

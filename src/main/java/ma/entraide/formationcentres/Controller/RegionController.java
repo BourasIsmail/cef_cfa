@@ -1,8 +1,8 @@
-package ma.entraide.handicap.Controller;
+package ma.entraide.formationcentres.Controller;
 
 
-import ma.entraide.handicap.Entity.Region;
-import ma.entraide.handicap.Service.RegionService;
+import ma.entraide.formationcentres.Entity.Region;
+import ma.entraide.formationcentres.Service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

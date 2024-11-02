@@ -1,11 +1,11 @@
-package ma.entraide.handicap.Filter;
+package ma.entraide.formationcentres.Filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ma.entraide.handicap.Service.JwtService;
-import ma.entraide.handicap.Service.UserInfoService;
+import ma.entraide.formationcentres.Service.JwtService;
+import ma.entraide.formationcentres.Service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

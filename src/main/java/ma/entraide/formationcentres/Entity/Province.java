@@ -1,21 +1,25 @@
 package ma.entraide.formationcentres.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class MilieuImplantation {
+@AllArgsConstructor
+public class Province {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "province_id")
     private Long id;
 
-    private String nom;
+    private String name;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "region_id")
+    private Region region;
+
+
 }

@@ -1,7 +1,7 @@
-package ma.entraide.handicap.Repository;
+package ma.entraide.formationcentres.Repository;
 
 
-import ma.entraide.handicap.Entity.Province;
+import ma.entraide.formationcentres.Entity.Province;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;

@@ -1,7 +1,7 @@
-package ma.entraide.handicap.Service;
+package ma.entraide.formationcentres.Service;
 
 
-import ma.entraide.handicap.Entity.UserInfo;
+import ma.entraide.formationcentres.Entity.UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

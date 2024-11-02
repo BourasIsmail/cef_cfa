@@ -1,6 +1,4 @@
-package ma.entraide.handicap.Entity;
-
-import java.util.*;
+package ma.entraide.formationcentres.Entity;
 
 public class RequestBodyObject {
 
