@@ -36,4 +36,8 @@ public class ProprieteDuCentreService {
         proprieteDuCentre1.setAutre(proprieteDuCentre.getAutre());
         return proprieteDuCentreRepo.save(proprieteDuCentre1);
     }
+
+    public void delete(Long id){
+        proprieteDuCentreRepo.deleteById(id);
+    }
 }

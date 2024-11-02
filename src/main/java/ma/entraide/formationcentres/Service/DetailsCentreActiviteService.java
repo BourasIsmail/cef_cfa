@@ -70,8 +70,8 @@ public class DetailsCentreActiviteService {
         return detailsCentreActiviteRepo.save(detailsCentre);
     }
 
-    public void delete(DetailsCentreActivite entity) {
-        DetailsCentreActivite detailsCentre = findById(entity.getId());
+    public void delete(Long entity) {
+        DetailsCentreActivite detailsCentre = findById(entity);
         detailsCentreActiviteRepo.delete(detailsCentre);
     }
 }

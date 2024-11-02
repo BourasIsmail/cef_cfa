@@ -27,7 +27,7 @@ public class DetailsFormationService {
     @Autowired
     private FiliereService filiereService;
 
-    public List<DetailFormation> getFilieres() {
+    public List<DetailFormation> getAll() {
         return detailFormationRepo.findAll();
     }
 
