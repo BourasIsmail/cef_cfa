@@ -50,4 +50,8 @@ public class FiliereService {
     public void delete(Long id) {
         filiereRepo.deleteById(id);
     }
+
+    public List<Filiere> findByTypeActivite(Long id) {
+        return filiereRepo.findFiliereByTypeActivite(id);
+    }
 }

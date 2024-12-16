@@ -22,7 +22,7 @@ public class FiliereController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Filiere> getById(@PathVariable Long id) {
         try {
             Filiere d = filiereService.findById(id);
@@ -30,6 +30,12 @@ public class FiliereController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/typeActivite/{id}")
+    public ResponseEntity<List<Filiere>> getByTypeActivite(@PathVariable Long id) {
+        List<Filiere> tab = filiereService.findByTypeActivite(id);
+        return ResponseEntity.ok(tab);
     }
 
     @PostMapping

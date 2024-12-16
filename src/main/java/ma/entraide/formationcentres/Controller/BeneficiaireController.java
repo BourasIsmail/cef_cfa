@@ -21,7 +21,7 @@ public class BeneficiaireController {
         return ResponseEntity.ok(beneficiaires);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Beneficiaire> getBeneficiaireById(@PathVariable Long id) {
         try {
             Beneficiaire beneficiaire = beneficiaireService.getBeneficiaireById(id);

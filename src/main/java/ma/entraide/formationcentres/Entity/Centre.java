@@ -44,6 +44,10 @@ public class Centre {
     @JoinColumn(name = "milieuImplantation_id")
     private MilieuImplantation milieuImplantation;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "propriete_du_centre_id")
+    private ProprieteDuCentre proprieteDuCentre;
+
     private double superficie;
 
     private String utilisation;

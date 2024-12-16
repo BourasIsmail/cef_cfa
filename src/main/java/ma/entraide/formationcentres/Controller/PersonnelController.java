@@ -22,7 +22,7 @@ public class PersonnelController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Personnel> getById(@PathVariable Long id) {
         try {
             Personnel d = personnelService.getPersonnelById(id);
@@ -58,6 +58,27 @@ public class PersonnelController {
             personnelService.deletePersonnel(id);
             return ResponseEntity.ok("personnel deleted successfully");
         } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/commune/{id}")
+    public ResponseEntity<List<Personnel>> getCommune(@PathVariable int id) {
+        try {
+            List<Personnel> p = personnelService.getPersonnelByCommune(id);
+            return ResponseEntity.ok(p);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/province/{id}")
+    public ResponseEntity<List<Personnel>> getProvince(@PathVariable Long id) {
+        try{
+            List<Personnel> p = personnelService.getPersonnelByProvince(id);
+            return ResponseEntity.ok(p);
+        }
+        catch(Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

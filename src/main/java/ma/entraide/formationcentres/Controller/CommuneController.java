@@ -21,7 +21,7 @@ public class CommuneController {
         return ResponseEntity.ok(communes);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Commune> getCommuneById(@PathVariable int id) {
         try {
             Commune commune = communeService.getCommuneById(id);
@@ -29,6 +29,12 @@ public class CommuneController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/byProvince/{id}")
+    public ResponseEntity<List<Commune>> getCommuneByProvince(@PathVariable Long id) {
+        List<Commune> communes = communeService.getCommuneByProvince(id);
+        return ResponseEntity.ok(communes);
     }
 
 

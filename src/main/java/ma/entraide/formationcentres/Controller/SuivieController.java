@@ -22,7 +22,7 @@ public class SuivieController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Suivie> getById(@PathVariable Long id) {
         try {
             Suivie d = suivieService.getSuivie(id);

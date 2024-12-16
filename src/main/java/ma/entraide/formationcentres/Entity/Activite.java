@@ -38,6 +38,21 @@ public class Activite {
 
     private String dateSignatureConvention;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "centre_id")
+    private Centre centre;
+
+    @ManyToMany(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    @JoinTable(
+            name = "filiere_centre_activite",
+            joinColumns = @JoinColumn(name = "centre_activite_id"),
+            inverseJoinColumns = @JoinColumn(name = "filiere_id"))
+    private List<Filiere> filieres;
 
 
 }

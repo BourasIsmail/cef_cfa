@@ -22,7 +22,7 @@ public class MilieuImplantationController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<MilieuImplantation> getById(@PathVariable Long id) {
         try {
             MilieuImplantation d = milieuImplantationService.getMilieuImplantation(id);

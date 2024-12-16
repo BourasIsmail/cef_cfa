@@ -23,7 +23,7 @@ public class DetailsCentreActiviteController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<DetailsCentreActivite> getById(@PathVariable Long id) {
         try {
             DetailsCentreActivite d = detailsCentreActiviteService.findById(id);

@@ -42,7 +42,8 @@ public class RegionService {
     public Region updateRegion(Long id,Region region) {
         Region updatedRegion = regionRepo.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("Region intouvable !"));
-        updatedRegion.setName(region.getName());
+        updatedRegion.setRegion(region.getRegion());
+        updatedRegion.setRegion_ar(region.getRegion_ar());
         return regionRepo.save(updatedRegion);
     }
 

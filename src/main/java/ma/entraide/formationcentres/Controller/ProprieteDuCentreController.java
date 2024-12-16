@@ -22,7 +22,7 @@ public class ProprieteDuCentreController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<ProprieteDuCentre> getById(@PathVariable Long id) {
         try {
             ProprieteDuCentre d = proprieteDuCentreService.getProprieteDuCentre(id);

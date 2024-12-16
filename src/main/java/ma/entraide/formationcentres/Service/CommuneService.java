@@ -27,4 +27,9 @@ public class CommuneService {
             throw new ResourceNotFoundException("No commune found with id " + id);
         }
     }
+
+    public List<Commune> getCommuneByProvince(Long id) {
+        return communeRepo.findByProvinceId(id);
+    }
+
 }

@@ -22,7 +22,7 @@ public class TypeActiviteController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<TypeActivite> getById(@PathVariable Long id) {
         try {
             TypeActivite d = typeActiviteService.getTypeActiviteById(id);

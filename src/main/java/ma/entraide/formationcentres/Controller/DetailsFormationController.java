@@ -22,7 +22,7 @@ public class DetailsFormationController {
         return ResponseEntity.ok(tab);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<DetailFormation> getById(@PathVariable Long id) {
         try {
             DetailFormation d = detailsFormationService.getDetailFormation(id);

@@ -22,7 +22,7 @@ public class DetailsCentreActivite {
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "activite_id")
-private Activite activite;
+    private Activite activite;
 
     @ManyToMany(cascade = {
             CascadeType.DETACH,

@@ -15,5 +15,7 @@ public class Region {
     @Column(name = "region_id")
     private Long id;
 
-    private String name;
+    private String region;
+
+    private String region_ar;
 }

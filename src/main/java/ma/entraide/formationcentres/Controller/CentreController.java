@@ -21,7 +21,7 @@ public class CentreController {
         return ResponseEntity.ok(centres);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Centre> getCentreById(@PathVariable Long id) {
         try {
             Centre centre = centreService.getCentre(id);

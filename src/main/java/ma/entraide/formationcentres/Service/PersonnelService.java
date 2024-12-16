@@ -61,4 +61,12 @@ public class PersonnelService {
     public void deletePersonnel(Long id) {
         personnelRepo.deleteById(id);
     }
+
+    public List<Personnel> getPersonnelByCommune(int id) {
+        return personnelRepo.findByCommune(id);
+    }
+
+    public List<Personnel> getPersonnelByProvince(Long id) {
+        return personnelRepo.findByProvince(id);
+    }
 }

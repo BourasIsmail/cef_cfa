@@ -37,7 +37,7 @@ public class SecurityConfig {
         return httpSecurity.csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/auth/welcome","/auth/addUser","/auth/login", "/region/all" ,
-                                "province/region/{id}","province/all")
+                                "province/region/{id}","province/all", "commune/byProvince/{id}")
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

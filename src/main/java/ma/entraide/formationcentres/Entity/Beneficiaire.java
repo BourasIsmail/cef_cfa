@@ -35,5 +35,9 @@ public class Beneficiaire {
     @JoinColumn(name = "commune_id")
     private Commune commune;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "province_id")
+    private Province province;
+
 
 }
