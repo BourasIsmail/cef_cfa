@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/centre")
 public class CentreController {
     @Autowired
@@ -31,7 +30,7 @@ public class CentreController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Centre> addCentre(@RequestBody Centre centre) {
         try {
             Centre newCentre = centreService.createCentre(centre);
