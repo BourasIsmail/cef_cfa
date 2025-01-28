@@ -36,8 +36,8 @@ public class PersonnelService {
         }
     }
 
-    public Personnel update(Personnel personnel) {
-        Personnel newPersonnel = getPersonnelById(personnel.getId());
+    public Personnel update(Long id,Personnel personnel) {
+        Personnel newPersonnel = getPersonnelById(id);
         Commune commune = communeService.getCommuneById(personnel.getCommune().getId());
         Province province = provinceService.getProvinceById(personnel.getProvince().getId());
 

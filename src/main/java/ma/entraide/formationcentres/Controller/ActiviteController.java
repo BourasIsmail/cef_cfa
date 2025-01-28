@@ -41,10 +41,10 @@ public class ActiviteController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Activite> updateActivite(@RequestBody Activite activite) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Activite> updateActivite(@PathVariable Long id, @RequestBody Activite activite) {
         try {
-            Activite updatedActivite = activiteService.updateActivite(activite);
+            Activite updatedActivite = activiteService.updateActivite(id,activite);
             return ResponseEntity.ok(updatedActivite);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

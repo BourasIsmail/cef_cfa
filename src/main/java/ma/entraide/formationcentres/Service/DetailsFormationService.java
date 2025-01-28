@@ -61,8 +61,8 @@ public class DetailsFormationService {
         return detailFormationRepo.save(detailFormation);
     }
 
-    public DetailFormation updateDetailFormation(DetailFormation detailFormation) {
-        DetailFormation detailFormation1 = getDetailFormation(detailFormation.getId());
+    public DetailFormation updateDetailFormation(Long id,DetailFormation detailFormation) {
+        DetailFormation detailFormation1 = getDetailFormation(id);
         List<Beneficiaire> beneficiaires = new ArrayList<Beneficiaire>();
         for (Beneficiaire beneficiaire : detailFormation.getBeneficiaire()) {
             Beneficiaire benef = beneficiaireService.getBeneficiaireById(beneficiaire.getId());

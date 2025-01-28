@@ -42,10 +42,10 @@ public class ProprieteDuCentreController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<ProprieteDuCentre> update(@RequestBody ProprieteDuCentre d) {
+    @PutMapping("/{id}")
+    public ResponseEntity<ProprieteDuCentre> update(@PathVariable Long id,@RequestBody ProprieteDuCentre d) {
         try {
-            ProprieteDuCentre dca = proprieteDuCentreService.update(d);
+            ProprieteDuCentre dca = proprieteDuCentreService.update(id,d);
             return ResponseEntity.ok(dca);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -43,10 +43,10 @@ public class DetailsCentreActiviteController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<DetailsCentreActivite> update(@RequestBody DetailsCentreActivite d) {
+    @PutMapping("/{id}")
+    public ResponseEntity<DetailsCentreActivite> update(@PathVariable Long id,@RequestBody DetailsCentreActivite d) {
         try {
-            DetailsCentreActivite dca = detailsCentreActiviteService.update(d);
+            DetailsCentreActivite dca = detailsCentreActiviteService.update(id,d);
             return ResponseEntity.ok(dca);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

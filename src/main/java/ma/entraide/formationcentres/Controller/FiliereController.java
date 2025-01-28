@@ -48,10 +48,10 @@ public class FiliereController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Filiere> update(@RequestBody Filiere d) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Filiere> update(@PathVariable Long id,@RequestBody Filiere d) {
         try {
-            Filiere dca = filiereService.update(d);
+            Filiere dca = filiereService.update(id,d);
             return ResponseEntity.ok(dca);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

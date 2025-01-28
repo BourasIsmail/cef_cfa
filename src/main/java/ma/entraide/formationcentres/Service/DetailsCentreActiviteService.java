@@ -55,8 +55,8 @@ public class DetailsCentreActiviteService {
         return detailsCentreActiviteRepo.save(entity);
     }
 
-    public DetailsCentreActivite update(DetailsCentreActivite entity) {
-        DetailsCentreActivite detailsCentre = findById(entity.getId());
+    public DetailsCentreActivite update(Long id,DetailsCentreActivite entity) {
+        DetailsCentreActivite detailsCentre = findById(id);
         Centre centre = centreService.getCentre(entity.getCentre().getId());
         Activite activite = activiteService.getActiviteById(entity.getActivite().getId());
         List<Filiere> filieres = new ArrayList<>();

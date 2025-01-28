@@ -42,10 +42,10 @@ public class SuivieController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Suivie> update(@RequestBody Suivie d) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Suivie> update(@PathVariable Long id,@RequestBody Suivie d) {
         try {
-            Suivie dca = suivieService.updateSuivie(d);
+            Suivie dca = suivieService.updateSuivie(id,d);
             return ResponseEntity.ok(dca);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

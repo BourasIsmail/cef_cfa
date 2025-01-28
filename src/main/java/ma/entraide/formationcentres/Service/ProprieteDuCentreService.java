@@ -30,8 +30,8 @@ public class ProprieteDuCentreService {
         return proprieteDuCentreRepo.save(proprieteDuCentre);
     }
 
-    public ProprieteDuCentre update(ProprieteDuCentre proprieteDuCentre) {
-        ProprieteDuCentre proprieteDuCentre1 = getProprieteDuCentre(proprieteDuCentre.getId());
+    public ProprieteDuCentre update(Long id,ProprieteDuCentre proprieteDuCentre) {
+        ProprieteDuCentre proprieteDuCentre1 = getProprieteDuCentre(id);
         proprieteDuCentre1.setNom(proprieteDuCentre.getNom());
         proprieteDuCentre1.setAutre(proprieteDuCentre.getAutre());
         return proprieteDuCentreRepo.save(proprieteDuCentre1);

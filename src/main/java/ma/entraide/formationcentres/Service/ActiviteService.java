@@ -51,8 +51,8 @@ public class ActiviteService {
         return activiteRepo.save(activite);
     }
 
-    public Activite updateActivite(Activite activite) {
-        Activite updatedActivite = getActiviteById(activite.getId());
+    public Activite updateActivite(Long id,Activite activite) {
+        Activite updatedActivite = getActiviteById(id);
         TypeActivite typeActivite = typeActiviteService.getTypeActiviteById(activite.getTypeActivite().getId());
         Personnel responsable = personnelService.getPersonnelById(activite.getResponsableActivite().getId());
         ProprieteDuCentre gestion = proprieteDuCentreService.getProprieteDuCentre(activite.getGestion().getId());

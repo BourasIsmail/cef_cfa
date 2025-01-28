@@ -44,8 +44,8 @@ public class SuivieService {
         return suivieRepo.save(suivie);
     }
 
-    public Suivie updateSuivie(Suivie suivie) {
-        Suivie updatedSuivie = getSuivie(suivie.getId());
+    public Suivie updateSuivie(Long id,Suivie suivie) {
+        Suivie updatedSuivie = getSuivie(id);
         Beneficiaire beneficiaire = beneficiaireService.getBeneficiaireById(suivie.getBeneficiaire().getId());
         Filiere filiere = filiereService.findById(suivie.getFiliere().getId());
         updatedSuivie.setFiliere(filiere);

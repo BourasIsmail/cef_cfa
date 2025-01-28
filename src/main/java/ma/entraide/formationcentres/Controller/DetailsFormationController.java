@@ -42,10 +42,10 @@ public class DetailsFormationController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<DetailFormation> update(@RequestBody DetailFormation d) {
+    @PutMapping("/{id}")
+    public ResponseEntity<DetailFormation> update(@PathVariable Long id,@RequestBody DetailFormation d) {
         try {
-            DetailFormation dca = detailsFormationService.updateDetailFormation(d);
+            DetailFormation dca = detailsFormationService.updateDetailFormation(id,d);
             return ResponseEntity.ok(dca);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -41,9 +41,9 @@ public class CentreController {
     }
 
     @PutMapping
-    public ResponseEntity<Centre> updateCentre(@RequestBody Centre centre) {
+    public ResponseEntity<Centre> updateCentre(@PathVariable Long id,@RequestBody Centre centre) {
         try {
-            Centre updatedCentre = centreService.updateCentre(centre);
+            Centre updatedCentre = centreService.updateCentre(id,centre);
             return ResponseEntity.ok(updatedCentre);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

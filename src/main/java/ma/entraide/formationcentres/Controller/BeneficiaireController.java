@@ -41,10 +41,10 @@ public class BeneficiaireController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Beneficiaire> updateBeneficiaire(@RequestBody Beneficiaire beneficiaire) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Beneficiaire> updateBeneficiaire(@PathVariable Long id,@RequestBody Beneficiaire beneficiaire) {
         try {
-            Beneficiaire updatedBeneficiaire = beneficiaireService.updateBeneficiaire(beneficiaire);
+            Beneficiaire updatedBeneficiaire = beneficiaireService.updateBeneficiaire(id,beneficiaire);
             return ResponseEntity.ok(updatedBeneficiaire);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

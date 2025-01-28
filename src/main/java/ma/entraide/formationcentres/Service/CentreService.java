@@ -52,8 +52,8 @@ public class CentreService {
         return centreRepo.save(centre);
     }
 
-    public Centre updateCentre(Centre centre) {
-        Centre updatedCentre = getCentre(centre.getId());
+    public Centre updateCentre(Long id,Centre centre) {
+        Centre updatedCentre = getCentre(id);
         Commune commune = communeService.getCommuneById(centre.getCommune().getId());
         Province province = provinceService.getProvinceById(centre.getProvince().getId());
         Personnel responsable = personnelService.getPersonnelById(centre.getResponsable().getId());

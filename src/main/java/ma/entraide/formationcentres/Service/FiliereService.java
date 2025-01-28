@@ -39,8 +39,8 @@ public class FiliereService {
         return filiereRepo.save(filiere);
     }
 
-    public Filiere update(Filiere filiere) {
-        Filiere updatedFiliere = findById(filiere.getId());
+    public Filiere update(Long id,Filiere filiere) {
+        Filiere updatedFiliere = findById(id);
         TypeActivite typeActivite = typeActiviteService.getTypeActiviteById(filiere.getTypeActivite().getId());
         updatedFiliere.setTypeActivite(typeActivite);
         updatedFiliere.setNom(filiere.getNom());

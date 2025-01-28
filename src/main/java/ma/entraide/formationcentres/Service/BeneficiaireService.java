@@ -44,8 +44,8 @@ public class BeneficiaireService {
         return beneficiaireRepo.save(beneficiaire);
     }
 
-    public Beneficiaire updateBeneficiaire(Beneficiaire beneficiaire) {
-        Beneficiaire updatedBenef = getBeneficiaireById(beneficiaire.getId());
+    public Beneficiaire updateBeneficiaire(Long id,Beneficiaire beneficiaire) {
+        Beneficiaire updatedBenef = getBeneficiaireById(id);
         Commune commune = communeService.getCommuneById(beneficiaire.getCommune().getId());
         Province province = provinceService.getProvinceById(beneficiaire.getProvince().getId());
         updatedBenef.setProvince(province);

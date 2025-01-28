@@ -42,10 +42,10 @@ public class PersonnelController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Personnel> update(@RequestBody Personnel d) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Personnel> update(@PathVariable Long id,@RequestBody Personnel d) {
         try {
-            Personnel dca = personnelService.update(d);
+            Personnel dca = personnelService.update(id,d);
             return ResponseEntity.ok(dca);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
