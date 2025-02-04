@@ -19,7 +19,7 @@ public class Activite {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "type_id")
     private TypeActivite typeActivite;
-
+    private String nom;
     private String dateOuverture;
 
     @ManyToOne(cascade = CascadeType.DETACH)
@@ -42,17 +42,9 @@ public class Activite {
     @JoinColumn(name = "centre_id")
     private Centre centre;
 
-    @ManyToMany(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH
-    })
-    @JoinTable(
-            name = "filiere_centre_activite",
-            joinColumns = @JoinColumn(name = "centre_activite_id"),
-            inverseJoinColumns = @JoinColumn(name = "filiere_id"))
-    private List<Filiere> filieres;
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "filiere_id")
+    private Filiere filiere;
 
 
 }

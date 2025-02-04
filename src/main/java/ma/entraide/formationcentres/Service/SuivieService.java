@@ -35,7 +35,10 @@ public class SuivieService {
             throw new EntityNotFoundException("Suivie n'existe pas");
         }
     }
+    public List<Suivie> getSuivieByBeneficiaireId(Long id) {
+        return suivieRepo.findByBeneficiaireId(id);
 
+    }
     public Suivie saveSuivie(Suivie suivie) {
         Beneficiaire beneficiaire = beneficiaireService.getBeneficiaireById(suivie.getBeneficiaire().getId());
         Filiere filiere = filiereService.findById(suivie.getFiliere().getId());

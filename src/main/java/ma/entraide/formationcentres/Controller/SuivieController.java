@@ -31,7 +31,15 @@ public class SuivieController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/beneficiaire/{id}")
+    public ResponseEntity<List<Suivie>> getSuivieByUserId(@PathVariable Long id) {
+        try {
+        	List<Suivie> listHisto = suivieService.getSuivieByBeneficiaireId(id);
+            return ResponseEntity.ok(listHisto);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PostMapping
     public ResponseEntity<Suivie> add(@RequestBody Suivie d) {
         try {

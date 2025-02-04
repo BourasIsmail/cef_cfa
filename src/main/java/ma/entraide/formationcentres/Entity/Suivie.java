@@ -21,7 +21,15 @@ public class Suivie {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "filiere_id")
     private Filiere filiere;
-
+    
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "activite_id")
+    private Activite activite;
+    
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "centre_id")
+    private Centre centre;
+    
     private String etatDeFormation;
 
     private String dateEffet;
