@@ -32,7 +32,7 @@ public class PersonnelController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Personnel> add(@RequestBody Personnel d) {
         try {
             Personnel d1 = personnelService.save(d);

@@ -15,4 +15,6 @@ public interface PersonnelRepo extends JpaRepository<Personnel, Long> {
 
     @Query("select d from Personnel d where d.commune.id = :id")
     List<Personnel> findByCommune(@Param("id") int id);
+    
+    
 }

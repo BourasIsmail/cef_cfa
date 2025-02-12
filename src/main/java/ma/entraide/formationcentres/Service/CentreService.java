@@ -30,6 +30,9 @@ public class CentreService {
     public List<Centre> getCentres() {
         return centreRepo.findAll();
     }
+    public List<Centre> getCentreByProvince(Long province) {
+        return centreRepo.findByCentreProvince(province);
+    }
     public Centre getCentre(Long id) {
         Optional<Centre> centre = centreRepo.findById(id);
         if (centre.isPresent()) {

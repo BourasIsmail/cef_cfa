@@ -1,6 +1,7 @@
 package ma.entraide.formationcentres.Controller;
 
 import ma.entraide.formationcentres.Entity.Beneficiaire;
+import ma.entraide.formationcentres.Entity.Centre;
 import ma.entraide.formationcentres.Service.BeneficiaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,15 @@ public class BeneficiaireController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/ByProvince/{id}")
+    public ResponseEntity<List<Beneficiaire>> getBeneficiareByProvinceId(@PathVariable Long id) {
+        try {
+            List<Beneficiaire> beneficiares = beneficiaireService.getBeneficiaireByProvince(id);
+            return ResponseEntity.ok(beneficiares);
+        } catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PostMapping("/add")
     public  ResponseEntity<Beneficiaire> addBeneficiaire(@RequestBody Beneficiaire beneficiaire) {
         try {

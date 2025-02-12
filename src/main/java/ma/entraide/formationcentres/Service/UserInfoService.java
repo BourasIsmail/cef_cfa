@@ -3,6 +3,7 @@ package ma.entraide.formationcentres.Service;
 
 import ma.entraide.formationcentres.Entity.Province;
 import ma.entraide.formationcentres.Entity.UserInfo;
+import ma.entraide.formationcentres.Repository.ProvinceRepo;
 import ma.entraide.formationcentres.Repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -19,7 +20,8 @@ import java.util.Optional;
 public class UserInfoService implements UserDetailsService {
     @Autowired
     private UserInfoRepository userInfoRepository;
-
+    @Autowired
+    private ProvinceRepo provinceRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -32,6 +34,8 @@ public class UserInfoService implements UserDetailsService {
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"+username));
     }
     public String addUser(UserInfo userInfo){
+    	Optional<Province> provinceOptional = provinceRepo.findById(userInfo.getProvince().getId());
+
         String password = userInfo.getPassword();
         String email = userInfo.getEmail();
         if(password == null )
@@ -49,8 +53,9 @@ public class UserInfoService implements UserDetailsService {
         }
         else{
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
+        userInfo.setProvince(provinceOptional.get());
         userInfoRepository.save(userInfo);
-        return "User added successfully";
+        return "User added successfully ";
         }
     }
     public List<UserInfo> getAllUser(){

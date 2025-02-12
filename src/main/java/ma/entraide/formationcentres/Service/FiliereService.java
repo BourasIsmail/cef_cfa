@@ -1,5 +1,6 @@
 package ma.entraide.formationcentres.Service;
 
+import ma.entraide.formationcentres.Entity.Activite;
 import ma.entraide.formationcentres.Entity.Filiere;
 import ma.entraide.formationcentres.Entity.TypeActivite;
 import ma.entraide.formationcentres.Repository.FiliereRepo;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +34,12 @@ public class FiliereService {
             throw new ResourceNotFoundException("Filiere " + id + " not found");
         }
     }
-
+    public List<Filiere> getFilieresByIds(List<Long> filiereIds) {
+        if (filiereIds == null || filiereIds.isEmpty()) {
+            return new ArrayList<>(); // Retourne une liste vide si aucun ID n'est fourni
+        }
+        return filiereRepo.findAllById(filiereIds);
+    }
     public Filiere save(Filiere filiere) {
         TypeActivite typeActivite = typeActiviteService.getTypeActiviteById(filiere.getTypeActivite().getId());
         filiere.setTypeActivite(typeActivite);

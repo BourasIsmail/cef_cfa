@@ -1,6 +1,7 @@
 package ma.entraide.formationcentres.Service;
 
 import ma.entraide.formationcentres.Entity.Beneficiaire;
+import ma.entraide.formationcentres.Entity.Centre;
 import ma.entraide.formationcentres.Entity.Commune;
 import ma.entraide.formationcentres.Entity.Province;
 import ma.entraide.formationcentres.Repository.BeneficiaireRepo;
@@ -25,7 +26,9 @@ public class BeneficiaireService {
     public List<Beneficiaire> getAllBeneficiaire() {
         return beneficiaireRepo.findAll();
     }
-
+    public List<Beneficiaire> getBeneficiaireByProvince(Long province) {
+        return beneficiaireRepo.findByBeneficiaireProvince(province);
+    }
     public Beneficiaire getBeneficiaireById(Long id) {
         Optional<Beneficiaire> beneficiaire = beneficiaireRepo.findById(id);
         if (beneficiaire.isPresent()) {

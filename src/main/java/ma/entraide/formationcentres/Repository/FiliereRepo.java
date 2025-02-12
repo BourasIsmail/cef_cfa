@@ -1,5 +1,6 @@
 package ma.entraide.formationcentres.Repository;
 
+import ma.entraide.formationcentres.Entity.Activite;
 import ma.entraide.formationcentres.Entity.Filiere;
 import ma.entraide.formationcentres.Entity.Personnel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ import java.util.List;
 public interface FiliereRepo extends JpaRepository<Filiere, Long> {
     @Query("select f from Filiere f where f.typeActivite.id = :id")
     List<Filiere> findFiliereByTypeActivite(@Param("id") Long id);
+    
+    
 }

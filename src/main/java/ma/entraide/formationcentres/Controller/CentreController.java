@@ -1,6 +1,7 @@
 package ma.entraide.formationcentres.Controller;
 
 import ma.entraide.formationcentres.Entity.Centre;
+import ma.entraide.formationcentres.Entity.Province;
 import ma.entraide.formationcentres.Service.CentreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,15 @@ public class CentreController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/ByProvince/{id}")
+    public ResponseEntity<List<Centre>> getCentreByProvinceId(@PathVariable Long id) {
+        try {
+            List<Centre> centres = centreService.getCentreByProvince(id);
+            return ResponseEntity.ok(centres);
+        } catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PostMapping("/add")
     public ResponseEntity<Centre> addCentre(@RequestBody Centre centre) {
         try {
@@ -40,7 +49,7 @@ public class CentreController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Centre> updateCentre(@PathVariable Long id,@RequestBody Centre centre) {
         try {
             Centre updatedCentre = centreService.updateCentre(id,centre);

@@ -1,6 +1,8 @@
 package ma.entraide.formationcentres.Controller;
 
 import ma.entraide.formationcentres.Entity.Activite;
+import ma.entraide.formationcentres.Entity.Centre;
+import ma.entraide.formationcentres.Entity.Commune;
 import ma.entraide.formationcentres.Service.ActiviteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class ActiviteController {
         List<Activite> activite = activiteService.getAllActivites();
         return ResponseEntity.ok(activite);
     }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity<Activite> getActiviteById(@PathVariable Long id) {
         try {
@@ -30,8 +32,13 @@ public class ActiviteController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/byCentre/{id}")
+    public ResponseEntity<List<Activite>> getActiviteByCentre(@PathVariable Long id) {
+        List<Activite> activites = activiteService.getActiviteByCentre(id);
+        return ResponseEntity.ok(activites);
+    }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Activite> addActivite(@RequestBody Activite activite) {
         try {
             Activite newActivite = activiteService.createActivite(activite);

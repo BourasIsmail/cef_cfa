@@ -1,5 +1,6 @@
 package ma.entraide.formationcentres.Controller;
 
+import ma.entraide.formationcentres.Entity.Activite;
 import ma.entraide.formationcentres.Entity.DetailsCentreActivite;
 import ma.entraide.formationcentres.Entity.Filiere;
 import ma.entraide.formationcentres.Service.FiliereService;
@@ -31,7 +32,7 @@ public class FiliereController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
     @GetMapping("/typeActivite/{id}")
     public ResponseEntity<List<Filiere>> getByTypeActivite(@PathVariable Long id) {
         List<Filiere> tab = filiereService.findByTypeActivite(id);

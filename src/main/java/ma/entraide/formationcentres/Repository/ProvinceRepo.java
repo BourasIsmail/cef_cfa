@@ -16,6 +16,8 @@ public interface ProvinceRepo extends JpaRepository<Province, Long> ,
 
     @Query("SELECT d FROM Province d WHERE d.region.id = :id")
     public List<Province> findByRegionId(@Param("id") Long id);
+    @Query("SELECT d FROM Province d WHERE d.name = :name")
+    Province findByProvinceName(@Param("name") String name);
 
 
 }
