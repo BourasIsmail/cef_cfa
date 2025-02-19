@@ -18,7 +18,7 @@ public class CommuneService {
         return communeRepo.findAll();
     }
 
-    public Commune getCommuneById(int id) {
+    public Commune getCommuneById(Long id) {
         Optional<Commune> commune = communeRepo.findById(id);
         if (commune.isPresent()) {
             return commune.get();

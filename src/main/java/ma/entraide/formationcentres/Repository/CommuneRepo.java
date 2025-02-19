@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommuneRepo extends JpaRepository<Commune, Integer> {
+public interface CommuneRepo extends JpaRepository<Commune, Long> {
     @Query("select d from Commune d where d.province.id = :id")
     List<Commune> findByProvinceId(@Param("id") Long id);
 }

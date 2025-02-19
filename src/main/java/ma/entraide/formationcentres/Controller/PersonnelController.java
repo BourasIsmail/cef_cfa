@@ -1,6 +1,6 @@
 package ma.entraide.formationcentres.Controller;
 
-import ma.entraide.formationcentres.Entity.Filiere;
+
 import ma.entraide.formationcentres.Entity.Personnel;
 import ma.entraide.formationcentres.Service.PersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;

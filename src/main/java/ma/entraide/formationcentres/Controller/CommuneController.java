@@ -22,7 +22,7 @@ public class CommuneController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Commune> getCommuneById(@PathVariable int id) {
+    public ResponseEntity<Commune> getCommuneById(@PathVariable Long id) {
         try {
             Commune commune = communeService.getCommuneById(id);
             return ResponseEntity.ok(commune);

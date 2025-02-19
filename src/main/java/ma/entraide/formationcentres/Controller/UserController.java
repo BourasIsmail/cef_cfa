@@ -64,7 +64,12 @@ public class UserController {
         }
 
     }
-
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return ResponseEntity.ok()
+            .header("Set-Cookie", "token=; HttpOnly; Secure; Path=/; Max-Age=0;")
+            .body("Logout successful");
+    }
     @GetMapping("/getUsers")
     public ResponseEntity<List<UserInfo>> getAllUsers() {
         List<UserInfo> users = userInfoService.getAllUser();
