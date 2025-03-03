@@ -73,4 +73,8 @@ public class Centre {
     private double coutEstimationEquipement;
 
     private String observation;
+
+    private float latitude;
+
+    private float longitude;
 }

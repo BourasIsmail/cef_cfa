@@ -1,6 +1,7 @@
 package ma.entraide.formationcentres.Service;
 
 
+import jakarta.validation.constraints.Null;
 import ma.entraide.formationcentres.Entity.Province;
 import ma.entraide.formationcentres.Entity.UserInfo;
 import ma.entraide.formationcentres.Repository.ProvinceRepo;
@@ -34,8 +35,6 @@ public class UserInfoService implements UserDetailsService {
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"+username));
     }
     public String addUser(UserInfo userInfo){
-    	Optional<Province> provinceOptional = provinceRepo.findById(userInfo.getProvince().getId());
-
         String password = userInfo.getPassword();
         String email = userInfo.getEmail();
         if(password == null )
@@ -53,7 +52,13 @@ public class UserInfoService implements UserDetailsService {
         }
         else{
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-        userInfo.setProvince(provinceOptional.get());
+        if(userInfo.getProvince() != null){
+            Optional<Province> provinceOptional = provinceRepo.findById(userInfo.getProvince().getId());
+            if(provinceOptional.isPresent()){
+                Province province = provinceOptional.get();
+                userInfo.setProvince(province);
+            }
+        }
         userInfoRepository.save(userInfo);
         return "User added successfully ";
         }

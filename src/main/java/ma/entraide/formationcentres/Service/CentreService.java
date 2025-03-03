@@ -83,6 +83,8 @@ public class CentreService {
         updatedCentre.setCoutEstimationAmenagement(centre.getCoutEstimationAmenagement());
         updatedCentre.setCoutEstimationEquipement(centre.getCoutEstimationEquipement());
         updatedCentre.setObservation(centre.getObservation());
+        updatedCentre.setLatitude(centre.getLatitude());
+        updatedCentre.setLongitude(centre.getLongitude());
         return centreRepo.save(updatedCentre);
     }
 
