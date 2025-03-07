@@ -54,7 +54,7 @@ public class FactureCentreService {
         updatedFacture.setCentre(centre);
         return centrefactureRepo.save(updatedFacture);
     }
-
+    
     public void deleteFacture(Long id) {
         centrefactureRepo.deleteById(id);
     }

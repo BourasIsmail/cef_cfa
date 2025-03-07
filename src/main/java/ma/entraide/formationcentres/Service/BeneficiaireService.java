@@ -1,8 +1,8 @@
 package ma.entraide.formationcentres.Service;
 
 import ma.entraide.formationcentres.Entity.Beneficiaire;
-import ma.entraide.formationcentres.Entity.Centre;
 import ma.entraide.formationcentres.Entity.Commune;
+import ma.entraide.formationcentres.Entity.Suivie;
 import ma.entraide.formationcentres.Entity.Province;
 import ma.entraide.formationcentres.Repository.BeneficiaireRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +44,12 @@ public class BeneficiaireService {
         Province province = provinceService.getProvinceById(beneficiaire.getProvince().getId());
         beneficiaire.setProvince(province);
         beneficiaire.setCommune(commune);
+     // Associer chaque suivi au bénéficiaire
+        if (beneficiaire.getSuivies() != null) {
+            for (Suivie suivie : beneficiaire.getSuivies()) {
+                suivie.setBeneficiaire(beneficiaire);
+            }
+        }
         return beneficiaireRepo.save(beneficiaire);
     }
 
@@ -60,7 +66,28 @@ public class BeneficiaireService {
         updatedBenef.setDateNaissance(beneficiaire.getDateNaissance());
         updatedBenef.setSexe(beneficiaire.getSexe());
         updatedBenef.setCin(beneficiaire.getCin());
+        if (beneficiaire.getSuivies() != null) {
+            for (Suivie suivie : beneficiaire.getSuivies()) {
+                suivie.setBeneficiaire(updatedBenef); // Associer au bénéficiaire existant
+                updatedBenef.getSuivies().add(suivie);
+            }
+        }
         return beneficiaireRepo.save(updatedBenef);
+    }
+    public Beneficiaire removeSuivieFromBeneficiaire(Long beneficiaireId, Long suivieId) {
+        Beneficiaire beneficiaire = getBeneficiaireById(beneficiaireId);
+
+        // Trouver la Suivie à supprimer
+        Suivie suivieToRemove = beneficiaire.getSuivies().stream()
+            .filter(suivie -> suivie.getId().equals(suivieId))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Suivie introuvable"));
+
+        // Supprimer la Suivie de la liste
+        beneficiaire.getSuivies().remove(suivieToRemove);
+
+        // Sauvegarder les changements
+        return beneficiaireRepo.save(beneficiaire);
     }
 
     public void deleteBeneficiaireById(Long id) {

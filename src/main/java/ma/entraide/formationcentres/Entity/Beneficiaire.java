@@ -5,7 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Data
@@ -38,6 +42,23 @@ public class Beneficiaire {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "province_id")
     private Province province;
+    @JsonBackReference
+    @OneToMany(mappedBy = "beneficiaire", cascade = CascadeType.ALL, orphanRemoval = true) 
+    private List<Suivie> suivies = new ArrayList<>();
 
+	public Beneficiaire(String nom, String prenom, String adresse, String telephone, String dateNaissance, String sexe,
+			String cin, Commune commune, Province province) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.adresse = adresse;
+		this.telephone = telephone;
+		this.dateNaissance = dateNaissance;
+		this.sexe = sexe;
+		this.cin = cin;
+		this.commune = commune;
+		this.province = province;
+	}
 
+    
 }

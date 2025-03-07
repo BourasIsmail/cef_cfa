@@ -61,4 +61,5 @@ public class FiliereService {
     public List<Filiere> findByTypeActivite(Long id) {
         return filiereRepo.findFiliereByTypeActivite(id);
     }
+    
 }

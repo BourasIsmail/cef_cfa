@@ -1,7 +1,6 @@
 package ma.entraide.formationcentres.Controller;
 
-import ma.entraide.formationcentres.Entity.Activite;
-import ma.entraide.formationcentres.Entity.DetailsCentreActivite;
+
 import ma.entraide.formationcentres.Entity.Filiere;
 import ma.entraide.formationcentres.Service.FiliereService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -52,6 +52,12 @@ public class CentreService {
         centre.setProvince(province);
         centre.setResponsable(responsable);
         centre.setMilieuImplantation(milieuImplantation);
+        //Associer chaque suivi au bénéficiaire
+        if (centre.getFactures() != null) {
+            for (CentreFacture facture : centre.getFactures()) {
+                facture.setCentre(centre);
+            }
+        }
         return centreRepo.save(centre);
     }
 
@@ -85,9 +91,29 @@ public class CentreService {
         updatedCentre.setObservation(centre.getObservation());
         updatedCentre.setLatitude(centre.getLatitude());
         updatedCentre.setLongitude(centre.getLongitude());
+        if (centre.getFactures() != null) {
+            for (CentreFacture facture : centre.getFactures()) {
+                facture.setCentre(updatedCentre); // Associer au bénéficiaire existant
+                updatedCentre.getFactures().add(facture);
+            }
+        }
         return centreRepo.save(updatedCentre);
     }
+    public Centre removeFactureFromCentre(Long centreId, Long factureId) {
+        Centre centre = getCentre(centreId);
 
+        // Trouver la Suivie à supprimer
+        CentreFacture factureToRemove = centre.getFactures().stream()
+            .filter(facture -> facture.getId().equals(factureId))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Facture introuvable"));
+
+        // Supprimer la Suivie de la liste
+        centre.getFactures().remove(factureToRemove);
+
+        // Sauvegarder les changements
+        return centreRepo.save(centre);
+    }
     public void deleteCentre(Long id) {
         centreRepo.deleteById(id);
     }
