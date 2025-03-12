@@ -1,7 +1,6 @@
 package ma.entraide.formationcentres.Controller;
 
 import ma.entraide.formationcentres.Entity.Beneficiaire;
-import ma.entraide.formationcentres.Entity.Centre;
 import ma.entraide.formationcentres.Service.BeneficiaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,63 +10,38 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/beneficiaire")
+@RequestMapping("/beneficiaires")
 public class BeneficiaireController {
+
     @Autowired
     private BeneficiaireService beneficiaireService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Beneficiaire>> getAllBeneficiaires() {
-        List<Beneficiaire> beneficiaires = beneficiaireService.getAllBeneficiaire();
-        return ResponseEntity.ok(beneficiaires);
+        return ResponseEntity.ok(beneficiaireService.getAllBeneficiaires());
     }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity<Beneficiaire> getBeneficiaireById(@PathVariable Long id) {
-        try {
-            Beneficiaire beneficiaire = beneficiaireService.getBeneficiaireById(id);
-            return ResponseEntity.ok(beneficiaire);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(beneficiaireService.getBeneficiaire(id));
     }
-    @GetMapping("/ByProvince/{id}")
-    public ResponseEntity<List<Beneficiaire>> getBeneficiareByProvinceId(@PathVariable Long id) {
-        try {
-            List<Beneficiaire> beneficiares = beneficiaireService.getBeneficiaireByProvince(id);
-            return ResponseEntity.ok(beneficiares);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/Province/{id}")
+    public ResponseEntity<List<Beneficiaire>> getBeneficiaireByProvinceId(@PathVariable Long id) {
+        return ResponseEntity.ok(beneficiaireService.getBeneficiaireByProvince(id));
     }
-    @PostMapping("/add")
-    public  ResponseEntity<Beneficiaire> addBeneficiaire(@RequestBody Beneficiaire beneficiaire) {
-        try {
-            Beneficiaire newBeneficiaire = beneficiaireService.createBeneficiaire(beneficiaire);
-            return ResponseEntity.ok(newBeneficiaire);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    @PostMapping
+    public ResponseEntity<Beneficiaire> addBeneficiaire(@RequestBody Beneficiaire beneficiaire) {
+        return ResponseEntity.ok(beneficiaireService.saveBeneficiaire(beneficiaire));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Beneficiaire> updateBeneficiaire(@PathVariable Long id,@RequestBody Beneficiaire beneficiaire) {
-        try {
-            Beneficiaire updatedBeneficiaire = beneficiaireService.updateBeneficiaire(id,beneficiaire);
-            return ResponseEntity.ok(updatedBeneficiaire);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Beneficiaire> updateBeneficiaire(@PathVariable Long id, @RequestBody Beneficiaire updatedBeneficiaire) {
+        return ResponseEntity.ok(beneficiaireService.updateBeneficiaire(id, updatedBeneficiaire));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBeneficiaire(@PathVariable Long id) {
-        try {
-            beneficiaireService.deleteBeneficiaireById(id);
-            return ResponseEntity.ok("Beneficiaire deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> deleteBeneficiaire(@PathVariable Long id) {
+        beneficiaireService.deleteBeneficiaire(id);
+        return ResponseEntity.noContent().build();
     }
-
 }

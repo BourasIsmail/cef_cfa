@@ -43,10 +43,7 @@ public class DetailsFormationService {
 
     public DetailFormation saveDetailFormation(DetailFormation detailFormation) {
         List<Beneficiaire> beneficiaires = new ArrayList<Beneficiaire>();
-        for (Beneficiaire beneficiaire : detailFormation.getBeneficiaire()) {
-            Beneficiaire benef = beneficiaireService.getBeneficiaireById(beneficiaire.getId());
-            beneficiaires.add(benef);
-        }
+        
         detailFormation.setBeneficiaire(beneficiaires);
 
         Centre local = centreService.getCentre(detailFormation.getLocal().getId());
@@ -64,10 +61,7 @@ public class DetailsFormationService {
     public DetailFormation updateDetailFormation(Long id,DetailFormation detailFormation) {
         DetailFormation detailFormation1 = getDetailFormation(id);
         List<Beneficiaire> beneficiaires = new ArrayList<Beneficiaire>();
-        for (Beneficiaire beneficiaire : detailFormation.getBeneficiaire()) {
-            Beneficiaire benef = beneficiaireService.getBeneficiaireById(beneficiaire.getId());
-            beneficiaires.add(benef);
-        }
+        
         detailFormation1.setBeneficiaire(beneficiaires);
 
         Centre local = centreService.getCentre(detailFormation.getLocal().getId());

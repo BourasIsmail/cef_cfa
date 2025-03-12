@@ -1,61 +1,73 @@
 package ma.entraide.formationcentres.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import ma.entraide.formationcentres.Entity.Centre;
 import ma.entraide.formationcentres.Entity.CentreFacture;
 import ma.entraide.formationcentres.Repository.CentreFactureRepo;
+import ma.entraide.formationcentres.Repository.CentreRepo;
 
 
 @Service
 public class FactureCentreService {
-	@Autowired
-    private CentreService centreService;
+	
 	
 	@Autowired
     private CentreFactureRepo centrefactureRepo;
+	@Autowired
+    private CentreRepo centreRepository;
 	
 	public List<CentreFacture> getFactures() {
         return centrefactureRepo.findAll();
     }
-    public List<CentreFacture> getFactureByCentre(Long centre) {
-        return centrefactureRepo.findFactureByCentre(centre);
+	public List<CentreFacture> getFacturesByCentre(Long centreId) {
+        return centrefactureRepo.findByCentreId(centreId);
     }
     public CentreFacture getFacture(Long id) {
-        Optional<CentreFacture> centrefacture = centrefactureRepo.findById(id);
-        if (centrefacture.isPresent()) {
-            return centrefacture.get();
-        }
-        else {
-            throw new ResourceNotFoundException("Facture with id " + id + " not found");
-        }
+        return centrefactureRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Suivi non trouvé"));
     }
 
     public CentreFacture createFacture(CentreFacture centrefacture) {
-        Centre centre = centreService.getCentre(centrefacture.getCentre().getId());        
-        centrefacture.setCentre(centre);
         return centrefactureRepo.save(centrefacture);
     }
+    public CentreFacture saveFacture(Long centreId, CentreFacture dto) {
+    	Centre centre = centreRepository.findById(centreId)
+                .orElseThrow(() -> new RuntimeException("Centre non trouvée"));
+    	CentreFacture facture = new CentreFacture();
+    	facture.setCentreId(centreId);
+    	facture.setDatefacture(dto.getDatefacture());
+    	facture.setEau(dto.getEau());
+    	facture.setConsEau(dto.getConsEau());
+    	facture.setElectricite(dto.getElectricite());
+    	facture.setConsElect(dto.getConsElect());
+    	facture.setTotal(dto.getTotal());
 
+        // 🔥 Ajouter à la liste des suivis du bénéficiaire
+        centre.getFactures().add(facture);
+        centreRepository.save(centre);
+
+        return facture;
+    	
+    }
     public CentreFacture updateFacture(Long id,CentreFacture centrefacture) {
         CentreFacture updatedFacture = getFacture(id);
-        Centre centre = centreService.getCentre(centrefacture.getCentre().getId());
+        updatedFacture.setCentreId(centrefacture.getCentreId());
         updatedFacture.setDatefacture(centrefacture.getDatefacture());
         updatedFacture.setEau(centrefacture.getEau());
         updatedFacture.setConsEau(centrefacture.getConsEau());
         updatedFacture.setElectricite(centrefacture.getElectricite());
         updatedFacture.setConsElect(centrefacture.getConsElect());
         updatedFacture.setTotal(centrefacture.getTotal());
-        updatedFacture.setCentre(centre);
         return centrefactureRepo.save(updatedFacture);
     }
     
+    
     public void deleteFacture(Long id) {
-        centrefactureRepo.deleteById(id);
+        CentreFacture facture = getFacture(id);
+        centrefactureRepo.delete(facture);
     }
 }

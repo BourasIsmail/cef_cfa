@@ -3,6 +3,7 @@ package ma.entraide.formationcentres.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -62,6 +63,10 @@ public class Centre {
     private String telephoneFixe;
 
     private String internet;
+    
+    private String possession;
+    
+    private double montantAllocation;
 
     private int nbrPC;
 
@@ -81,7 +86,8 @@ public class Centre {
 
     private float longitude;
     
-    @OneToMany(mappedBy = "centre", cascade = CascadeType.ALL, orphanRemoval = true) 
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) 
     private List<CentreFacture> factures = new ArrayList<>();
 
 	public Centre(String nomFr, String nomAr, TypeCentre typeCentre, String dateConstruction, String telephone,
@@ -90,8 +96,7 @@ public class Centre {
 			String utilisation, String etat, String electricite, String telephoneFixe, String internet, int nbrPC,
 			int nbrImprimante, int nbrPersonneConnaissanceInfo, int nbrPersonneOperationelApresFormation,
 			double coutEstimationAmenagement, double coutEstimationEquipement, String observation, float latitude,
-			float longitude) {
-		super();
+			float longitude, String possession ) {
 		this.nomFr = nomFr;
 		this.nomAr = nomAr;
 		this.typeCentre = typeCentre;
@@ -109,6 +114,7 @@ public class Centre {
 		this.electricite = electricite;
 		this.telephoneFixe = telephoneFixe;
 		this.internet = internet;
+		this.possession = possession;
 		this.nbrPC = nbrPC;
 		this.nbrImprimante = nbrImprimante;
 		this.nbrPersonneConnaissanceInfo = nbrPersonneConnaissanceInfo;

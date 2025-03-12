@@ -1,7 +1,6 @@
 package ma.entraide.formationcentres.Repository;
 
 import ma.entraide.formationcentres.Entity.Beneficiaire;
-import ma.entraide.formationcentres.Entity.Centre;
 
 import java.util.List;
 

@@ -1,7 +1,8 @@
 package ma.entraide.formationcentres.Controller;
 
-import ma.entraide.formationcentres.Entity.Filiere;
+
 import ma.entraide.formationcentres.Entity.Suivie;
+
 import ma.entraide.formationcentres.Service.SuivieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,62 +12,42 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/Suivie")
+@RequestMapping("/suivies")
 public class SuivieController {
+
     @Autowired
     private SuivieService suivieService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Suivie>> getAll(){
-        List<Suivie> tab = suivieService.getAllSuivies();
-        return ResponseEntity.ok(tab);
+    @GetMapping
+    public ResponseEntity<List<Suivie>> getAllSuivies() {
+        return ResponseEntity.ok(suivieService.getAllSuivies());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Suivie> getById(@PathVariable Long id) {
-        try {
-            Suivie d = suivieService.getSuivie(id);
-            return ResponseEntity.ok(d);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Suivie> getSuivieById(@PathVariable Long id) {
+        return ResponseEntity.ok(suivieService.getSuivie(id));
     }
-    @GetMapping("/beneficiaire/{id}")
-    public ResponseEntity<List<Suivie>> getSuivieByUserId(@PathVariable Long id) {
-        try {
-        	List<Suivie> listHisto = suivieService.getSuivieByBeneficiaireId(id);
-            return ResponseEntity.ok(listHisto);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/beneficiaire/{beneficiaireId}")
+    public ResponseEntity<List<Suivie>> getSuiviesByBeneficiaire(@PathVariable Long beneficiaireId) {
+        List<Suivie> suivies = suivieService.getSuiviesByBeneficiaire(beneficiaireId);
+        if (suivies.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(suivies);
     }
-    @PostMapping
-    public ResponseEntity<Suivie> add(@RequestBody Suivie d) {
-        try {
-            Suivie d1 = suivieService.saveSuivie(d);
-            return ResponseEntity.ok(d1);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    @PostMapping("/{beneficiaireId}")
+    public ResponseEntity<Suivie> addSuivie(@PathVariable Long beneficiaireId, @RequestBody Suivie dto) {
+        return ResponseEntity.ok(suivieService.saveSuivie(beneficiaireId, dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Suivie> update(@PathVariable Long id,@RequestBody Suivie d) {
-        try {
-            Suivie dca = suivieService.updateSuivie(id,d);
-            return ResponseEntity.ok(dca);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Suivie> updateSuivie(@PathVariable Long id, @RequestBody Suivie updatedSuivie) {
+        return ResponseEntity.ok(suivieService.updateSuivie(id, updatedSuivie));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        try {
-            suivieService.deleteSuivie(id);
-            return ResponseEntity.ok("deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> deleteSuivie(@PathVariable Long id) {
+        suivieService.deleteSuivie(id);
+        return ResponseEntity.noContent().build();
     }
 }

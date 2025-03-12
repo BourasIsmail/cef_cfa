@@ -1,65 +1,124 @@
 package ma.entraide.formationcentres.Service;
 
-import jakarta.persistence.EntityNotFoundException;
+import ma.entraide.formationcentres.Entity.Activite;
 import ma.entraide.formationcentres.Entity.Beneficiaire;
+import ma.entraide.formationcentres.Entity.Centre;
 import ma.entraide.formationcentres.Entity.Filiere;
 import ma.entraide.formationcentres.Entity.Suivie;
+import ma.entraide.formationcentres.Repository.ActiviteRepo;
+import ma.entraide.formationcentres.Repository.BeneficiaireRepo;
+import ma.entraide.formationcentres.Repository.CentreRepo;
+import ma.entraide.formationcentres.Repository.FiliereRepo;
 import ma.entraide.formationcentres.Repository.SuivieRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SuivieService {
-    @Autowired
-    private SuivieRepo suivieRepo;
 
     @Autowired
-    private FiliereService filiereService;
+    private SuivieRepo suivieRepository;
 
     @Autowired
-    private BeneficiaireService beneficiaireService;
+    private BeneficiaireRepo beneficiaireRepository;
+    @Autowired
+    private CentreRepo centreRepository;
+    @Autowired
+    private ActiviteRepo activiteRepository;
 
+    @Autowired
+    private FiliereRepo filiereRepository;
     public List<Suivie> getAllSuivies() {
-        return suivieRepo.findAll();
+        return suivieRepository.findAll();
     }
 
     public Suivie getSuivie(Long id) {
-        Optional<Suivie> suivie = suivieRepo.findById(id);
-        if (suivie.isPresent()) {
-            return suivie.get();
-        }
-        else{
-            throw new EntityNotFoundException("Suivie n'existe pas");
-        }
+        return suivieRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Suivi non trouvé"));
     }
-    public List<Suivie> getSuivieByBeneficiaireId(Long id) {
-        return suivieRepo.findByBeneficiaireId(id);
-
+    public List<Suivie> getSuiviesByBeneficiaire(Long beneficiaireId) {
+        return suivieRepository.findByBeneficiaireId(beneficiaireId);
     }
-    public Suivie saveSuivie(Suivie suivie) {
-        Beneficiaire beneficiaire = beneficiaireService.getBeneficiaireById(suivie.getBeneficiaire().getId());
-        Filiere filiere = filiereService.findById(suivie.getFiliere().getId());
-        suivie.setFiliere(filiere);
-        suivie.setBeneficiaire(beneficiaire);
-        return suivieRepo.save(suivie);
-    }
-
-    public Suivie updateSuivie(Long id,Suivie suivie) {
-        Suivie updatedSuivie = getSuivie(id);
-        Beneficiaire beneficiaire = beneficiaireService.getBeneficiaireById(suivie.getBeneficiaire().getId());
-        Filiere filiere = filiereService.findById(suivie.getFiliere().getId());
-        updatedSuivie.setFiliere(filiere);
-        updatedSuivie.setBeneficiaire(beneficiaire);
-        updatedSuivie.setEtatDeFormation(suivie.getEtatDeFormation());
-        updatedSuivie.setDateEffet(suivie.getDateEffet());
-        updatedSuivie.setObservation(suivie.getObservation());
-        return suivieRepo.save(updatedSuivie);
-    }
-
     public void deleteSuivie(Long id) {
-        suivieRepo.deleteById(id);
+        Suivie suivie = getSuivie(id);
+        suivieRepository.delete(suivie);
+    }
+
+    public Suivie updateSuivie(Long id, Suivie updatedSuivie) {
+    	
+            Activite activite = activiteRepository.findById(updatedSuivie.getActivite().getId())
+                .orElseThrow(() -> new RuntimeException("Activité non trouvée"));
+            Beneficiaire beneficiaire = beneficiaireRepository.findById(updatedSuivie.getBeneficiaireId())
+                    .orElseThrow(() -> new RuntimeException("Beneficiaire non trouvée"));
+                
+            Filiere filiere = filiereRepository.findById(updatedSuivie.getFiliere().getId())
+                    .orElseThrow(() -> new RuntimeException("Filiere non trouvée"));
+            Centre centre = centreRepository.findById(updatedSuivie.getCentre().getId())
+                    .orElseThrow(() -> new RuntimeException("Centre non trouvée"));
+            String typeActivite = activite.getTypeActivite().getName();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate birthDate = LocalDate.parse(beneficiaire.getDateNaissance(), formatter);
+            int age = (int) ChronoUnit.YEARS.between(birthDate, LocalDate.now());
+
+            if (("CFA".equals(typeActivite) && age <= 30) || 
+                (("CFA".equals(typeActivite) || "CEF".equals(typeActivite)) && age > 15)) {
+            
+        Suivie existingSuivie = getSuivie(id);
+        existingSuivie.setBeneficiaireId(updatedSuivie.getBeneficiaireId());
+        existingSuivie.setFiliere(filiere);
+        existingSuivie.setActivite(activite);
+        existingSuivie.setCentre(centre);
+        existingSuivie.setEtatDeFormation(updatedSuivie.getEtatDeFormation());
+        existingSuivie.setDateEffet(updatedSuivie.getDateEffet());
+        existingSuivie.setObservation(updatedSuivie.getObservation());
+        
+        return suivieRepository.save(existingSuivie);
+            } else {
+                throw new IllegalArgumentException("Conditions non respectées pour cette activité.");
+            }
+    }
+
+    public Suivie saveSuivie(Long beneficiaireId, Suivie dto) {
+        Beneficiaire beneficiaire = beneficiaireRepository.findById(beneficiaireId)
+            .orElseThrow(() -> new RuntimeException("Bénéficiaire non trouvé"));
+
+        Activite activite = activiteRepository.findById(dto.getActivite().getId())
+            .orElseThrow(() -> new RuntimeException("Activité non trouvée"));
+        
+        Filiere filiere = filiereRepository.findById(dto.getFiliere().getId())
+                .orElseThrow(() -> new RuntimeException("Filiere non trouvée"));
+        Centre centre = centreRepository.findById(dto.getCentre().getId())
+                .orElseThrow(() -> new RuntimeException("Centre non trouvée"));
+        String typeActivite = activite.getTypeActivite().getName();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birthDate = LocalDate.parse(beneficiaire.getDateNaissance(), formatter);
+        int age = (int) ChronoUnit.YEARS.between(birthDate, LocalDate.now());
+
+        if (("CFA".equals(typeActivite) && age <= 30) || 
+            (("CFA".equals(typeActivite) || "CEF".equals(typeActivite)) && age > 15)) {
+            
+            Suivie suivie = new Suivie();
+            suivie.setBeneficiaireId(beneficiaireId);
+            suivie.setActivite(activite);
+            suivie.setFiliere(filiere);
+            suivie.setCentre(centre);
+            suivie.setEtatDeFormation(dto.getEtatDeFormation());
+            suivie.setDateEffet(dto.getDateEffet());
+            suivie.setObservation(dto.getObservation());
+
+            // 🔥 Ajouter à la liste des suivis du bénéficiaire
+            beneficiaire.getSuivies().add(suivie);
+            beneficiaireRepository.save(beneficiaire);
+
+            return suivie;
+            
+        } else {
+            throw new IllegalArgumentException("Conditions non respectées pour cette activité.");
+        }
     }
 }

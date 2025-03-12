@@ -11,68 +11,64 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ma.entraide.formationcentres.Entity.CentreFacture;
+import ma.entraide.formationcentres.Repository.CentreFactureRepo;
 import ma.entraide.formationcentres.Service.FactureCentreService;
 
 @RestController
-@RequestMapping("/facture")
+@RequestMapping("/factures")
 public class CentreFactureController {
 	@Autowired
     private FactureCentreService centrefactureService;
-
-    @GetMapping("/all")
+	
+	@Autowired
+	private CentreFactureRepo centreFactureRepo;
+	@GetMapping
     public ResponseEntity<List<CentreFacture>> getAllFactures() {
-        List<CentreFacture> factures = centrefactureService.getFactures();
+        return ResponseEntity.ok(centrefactureService.getFactures());
+    }
+
+    
+    @PostMapping("/add")
+    public CentreFacture addFactureToCentre(@RequestBody CentreFacture centreFacture, @RequestParam Long centreId) {
+
+        double total = centreFacture.getEau() + centreFacture.getElectricite();
+        centreFacture.setTotal(total);
+
+        return centreFactureRepo.save(centreFacture);
+    }
+    @GetMapping("/centre/{centreId}")
+    public ResponseEntity<List<CentreFacture>> getFacturesByCentre(@PathVariable Long centreId) {
+        List<CentreFacture> factures = centrefactureService.getFacturesByCentre(centreId);
+        if (factures.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(factures);
     }
+    
 
+    
     @GetMapping("/{id}")
     public ResponseEntity<CentreFacture> getFactureById(@PathVariable Long id) {
-        try {
-            CentreFacture centrefacture = centrefactureService.getFacture(id);
-            return ResponseEntity.ok(centrefacture);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(centrefactureService.getFacture(id));
     }
-    @GetMapping("/Centre/{id}")
-    public ResponseEntity<List<CentreFacture>> getFactureByCentreId(@PathVariable Long id) {
-        try {
-            List<CentreFacture> factures = centrefactureService.getFactureByCentre(id);
-            return ResponseEntity.ok(factures);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-    @PostMapping("/add")
-    public ResponseEntity<CentreFacture> addFacture(@RequestBody CentreFacture centrefacture) {
-        try {
-            CentreFacture newFacture = centrefactureService.createFacture(centrefacture);
-            return ResponseEntity.ok(newFacture);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+
+    @PostMapping("/{centreId}")
+    public ResponseEntity<CentreFacture> addFacture(@PathVariable Long centreId, @RequestBody CentreFacture dto) {
+        return ResponseEntity.ok(centrefactureService.saveFacture(centreId, dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CentreFacture> updateFacture(@PathVariable Long id,@RequestBody CentreFacture centrefacture) {
-        try {
-            CentreFacture updatedFacture = centrefactureService.updateFacture(id,centrefacture);
-            return ResponseEntity.ok(updatedFacture);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<CentreFacture> updateFacture(@PathVariable Long id, @RequestBody CentreFacture updatedFacture) {
+        return ResponseEntity.ok(centrefactureService.updateFacture(id, updatedFacture));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFacture(@PathVariable Long id) {
-        try {
-        	centrefactureService.deleteFacture(id);
-            return ResponseEntity.ok("Facture deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> deleteFacture(@PathVariable Long id) {
+        centrefactureService.deleteFacture(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,5 @@
 package ma.entraide.formationcentres.Entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,10 +14,8 @@ public class Suivie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonManagedReference
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "benef_id")
-    private Beneficiaire beneficiaire;
+    
+    private Long beneficiaireId;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "filiere_id")

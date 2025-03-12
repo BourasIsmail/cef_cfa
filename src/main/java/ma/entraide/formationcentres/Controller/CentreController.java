@@ -1,7 +1,6 @@
 package ma.entraide.formationcentres.Controller;
 
 import ma.entraide.formationcentres.Entity.Centre;
-import ma.entraide.formationcentres.Entity.Province;
 import ma.entraide.formationcentres.Service.CentreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,62 +9,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/centre")
+@CrossOrigin("*")
+@RequestMapping("/centres")
 public class CentreController {
     @Autowired
     private CentreService centreService;
-
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Centre>> getAllCentres() {
-        List<Centre> centres = centreService.getCentres();
-        return ResponseEntity.ok(centres);
+        return ResponseEntity.ok(centreService.getCentres());
     }
-
+    
     @GetMapping("/{id}")
-    public ResponseEntity<Centre> getCentreById(@PathVariable Long id) {
-        try {
-            Centre centre = centreService.getCentre(id);
-            return ResponseEntity.ok(centre);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Centre> getBeneficiaireById(@PathVariable Long id) {
+        return ResponseEntity.ok(centreService.getCentre(id));
     }
-    @GetMapping("/ByProvince/{id}")
-    public ResponseEntity<List<Centre>> getCentreByProvinceId(@PathVariable Long id) {
-        try {
-            List<Centre> centres = centreService.getCentreByProvince(id);
-            return ResponseEntity.ok(centres);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/Province/{id}")
+    public ResponseEntity<List<Centre>> getBeneficiaireByProvinceId(@PathVariable Long id) {
+        return ResponseEntity.ok(centreService.getCentreByProvince(id));
     }
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<Centre> addCentre(@RequestBody Centre centre) {
-        try {
-            Centre newCentre = centreService.createCentre(centre);
-            return ResponseEntity.ok(newCentre);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(centreService.saveCentre(centre));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Centre> updateCentre(@PathVariable Long id,@RequestBody Centre centre) {
-        try {
-            Centre updatedCentre = centreService.updateCentre(id,centre);
-            return ResponseEntity.ok(updatedCentre);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Centre> updateCentre(@PathVariable Long id, @RequestBody Centre updatedCentre) {
+        return ResponseEntity.ok(centreService.updateCentre(id, updatedCentre));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCentre(@PathVariable Long id) {
-        try {
-            centreService.deleteCentre(id);
-            return ResponseEntity.ok("Centre deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> deleteCentre(@PathVariable Long id) {
+    	centreService.deleteCentre(id);
+        return ResponseEntity.noContent().build();
     }
 }

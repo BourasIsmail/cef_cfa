@@ -2,13 +2,10 @@ package ma.entraide.formationcentres.Service;
 
 import ma.entraide.formationcentres.Entity.*;
 import ma.entraide.formationcentres.Repository.CentreRepo;
-import ma.entraide.formationcentres.Repository.CommuneRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CentreService {
@@ -33,17 +30,12 @@ public class CentreService {
     public List<Centre> getCentreByProvince(Long province) {
         return centreRepo.findByCentreProvince(province);
     }
+    
     public Centre getCentre(Long id) {
-        Optional<Centre> centre = centreRepo.findById(id);
-        if (centre.isPresent()) {
-            return centre.get();
-        }
-        else {
-            throw new ResourceNotFoundException("Centre with id " + id + " not found");
-        }
+        return centreRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("centre non trouvé"));
     }
-
-    public Centre createCentre(Centre centre) {
+    public Centre saveCentre(Centre centre) {
         Commune commune = communeService.getCommuneById(centre.getCommune().getId());
         Province province = provinceService.getProvinceById(centre.getProvince().getId());
         Personnel responsable = personnelService.getPersonnelById(centre.getResponsable().getId());
@@ -52,12 +44,12 @@ public class CentreService {
         centre.setProvince(province);
         centre.setResponsable(responsable);
         centre.setMilieuImplantation(milieuImplantation);
-        //Associer chaque suivi au bénéficiaire
-        if (centre.getFactures() != null) {
-            for (CentreFacture facture : centre.getFactures()) {
-                facture.setCentre(centre);
-            }
+        if("loye".equals(centre.getPossession())) {
+        	centre.setMontantAllocation(centre.getMontantAllocation());
+        }else {
+        	centre.setMontantAllocation(0);
         }
+        
         return centreRepo.save(centre);
     }
 
@@ -82,6 +74,12 @@ public class CentreService {
         updatedCentre.setElectricite(centre.getElectricite());
         updatedCentre.setTelephoneFixe(centre.getTelephoneFixe());
         updatedCentre.setInternet(centre.getInternet());
+        updatedCentre.setPossession(centre.getPossession());
+        if("loye".equals(centre.getPossession())) {
+        	updatedCentre.setMontantAllocation(centre.getMontantAllocation());
+        }else {
+        	updatedCentre.setMontantAllocation(0);;
+        }
         updatedCentre.setNbrPC(centre.getNbrPC());
         updatedCentre.setNbrImprimante(centre.getNbrImprimante());
         updatedCentre.setNbrPersonneConnaissanceInfo(centre.getNbrPersonneConnaissanceInfo());
@@ -91,29 +89,10 @@ public class CentreService {
         updatedCentre.setObservation(centre.getObservation());
         updatedCentre.setLatitude(centre.getLatitude());
         updatedCentre.setLongitude(centre.getLongitude());
-        if (centre.getFactures() != null) {
-            for (CentreFacture facture : centre.getFactures()) {
-                facture.setCentre(updatedCentre); // Associer au bénéficiaire existant
-                updatedCentre.getFactures().add(facture);
-            }
-        }
+        
         return centreRepo.save(updatedCentre);
     }
-    public Centre removeFactureFromCentre(Long centreId, Long factureId) {
-        Centre centre = getCentre(centreId);
-
-        // Trouver la Suivie à supprimer
-        CentreFacture factureToRemove = centre.getFactures().stream()
-            .filter(facture -> facture.getId().equals(factureId))
-            .findFirst()
-            .orElseThrow(() -> new RuntimeException("Facture introuvable"));
-
-        // Supprimer la Suivie de la liste
-        centre.getFactures().remove(factureToRemove);
-
-        // Sauvegarder les changements
-        return centreRepo.save(centre);
-    }
+    
     public void deleteCentre(Long id) {
         centreRepo.deleteById(id);
     }

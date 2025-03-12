@@ -1,6 +1,7 @@
 package ma.entraide.formationcentres.Controller;
 
 import ma.entraide.formationcentres.Entity.Activite;
+import ma.entraide.formationcentres.Entity.Beneficiaire;
 import ma.entraide.formationcentres.Entity.Centre;
 import ma.entraide.formationcentres.Entity.Commune;
 import ma.entraide.formationcentres.Service.ActiviteService;
@@ -38,14 +39,10 @@ public class ActiviteController {
         return ResponseEntity.ok(activites);
     }
 
+    
     @PostMapping("/add")
     public ResponseEntity<Activite> addActivite(@RequestBody Activite activite) {
-        try {
-            Activite newActivite = activiteService.createActivite(activite);
-            return ResponseEntity.ok(newActivite);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(activiteService.saveActivite(activite));
     }
 
     @PutMapping("/{id}")

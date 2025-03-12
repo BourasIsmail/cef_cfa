@@ -53,7 +53,7 @@ public class ActiviteService {
     public List<Activite> getActiviteByCentre(Long id) {
         return activiteRepo.findByCentreId(id);
     }
-    public Activite createActivite(Activite activite) {
+    public Activite saveActivite(Activite activite) {
         // Vérification et récupération des entités associées
         TypeActivite typeActivite = typeActiviteService
             .getTypeActiviteById(activite.getTypeActivite().getId());
@@ -74,7 +74,7 @@ public class ActiviteService {
         	filieresNew.add(filiereService.findById(filiere.getId()));
         	
         }
-        activite.setFilieres(filieresNew);
+        
 
         return activiteRepo.save(activite);
     }

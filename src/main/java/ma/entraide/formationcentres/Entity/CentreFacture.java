@@ -1,12 +1,10 @@
 package ma.entraide.formationcentres.Entity;
 
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +18,8 @@ public class CentreFacture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
+	private Long centreId;
+	
 	private String datefacture;
 	
 	private double eau;
@@ -31,10 +31,6 @@ public class CentreFacture {
 	private double consElect;
 	
 	private double total;
-	
-	@ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "centre_id")
-    private Centre centre;
 	
 	
 }
