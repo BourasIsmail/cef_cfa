@@ -42,17 +42,31 @@ public class Activite {
     @JoinColumn(name = "centre_id")
     private Centre centre;
 
-    @ManyToMany(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH
-    })
+    @ManyToMany
     @JoinTable(
-            name = "filiere_centre_activite",
-            joinColumns = @JoinColumn(name = "centre_activite_id"),
-            inverseJoinColumns = @JoinColumn(name = "filiere_id"))
+        name = "activite_filiere", // Join table name
+        joinColumns = @JoinColumn(name = "activite_id"), // Activite side of the relation
+        inverseJoinColumns = @JoinColumn(name = "filiere_id") // Filiere side of the relation
+    )
     private List<Filiere> filieres;
 
+	public Activite(TypeActivite typeActivite, String nom, String dateOuverture, Personnel responsableActivite,
+			long capaciteAccueil, double superficie, ProprieteDuCentre gestion, String partenariat,
+			String dateSignatureConvention, Centre centre, List<Filiere> filieres) {
+		super();
+		this.typeActivite = typeActivite;
+		this.nom = nom;
+		this.dateOuverture = dateOuverture;
+		this.responsableActivite = responsableActivite;
+		this.capaciteAccueil = capaciteAccueil;
+		this.superficie = superficie;
+		this.gestion = gestion;
+		this.partenariat = partenariat;
+		this.dateSignatureConvention = dateSignatureConvention;
+		this.centre = centre;
+		this.filieres = filieres;
+	}
+    
+    
 
 }

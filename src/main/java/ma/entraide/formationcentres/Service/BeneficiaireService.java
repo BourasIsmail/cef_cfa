@@ -3,6 +3,7 @@ package ma.entraide.formationcentres.Service;
 import ma.entraide.formationcentres.Entity.Beneficiaire;
 import ma.entraide.formationcentres.Entity.Commune;
 import ma.entraide.formationcentres.Entity.Province;
+import ma.entraide.formationcentres.Entity.Suivie;
 import ma.entraide.formationcentres.Repository.BeneficiaireRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,15 @@ public class BeneficiaireService {
     public List<Beneficiaire> getBeneficiaireByProvince(Long province) {
         return beneficiaireRepository.findByBeneficiaireProvince(province);
     }
-    public Beneficiaire saveBeneficiaire(Beneficiaire beneficiaire) {
+    public Beneficiaire saveBeneficiaire(Beneficiaire beneficiaire, List<Suivie> suivies) {
     	Commune commune = communeService.getCommuneById(beneficiaire.getCommune().getId());
         Province province = provinceService.getProvinceById(beneficiaire.getProvince().getId());
         beneficiaire.setCommune(commune);
         beneficiaire.setProvince(province);
+        for (Suivie suivie : suivies) {
+            suivie.setBeneficiaireId(beneficiaire.getId());
+        }
+        beneficiaire.getSuivies().addAll(suivies);
         return beneficiaireRepository.save(beneficiaire);
     }
 

@@ -1,6 +1,7 @@
 package ma.entraide.formationcentres.Controller;
 
 
+import ma.entraide.formationcentres.Entity.Beneficiaire;
 import ma.entraide.formationcentres.Entity.Suivie;
 
 import ma.entraide.formationcentres.Service.SuivieService;

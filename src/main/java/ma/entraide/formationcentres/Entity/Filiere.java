@@ -19,4 +19,12 @@ public class Filiere {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "type_id")
     private TypeActivite typeActivite;
+
+	public Filiere(String nom, TypeActivite typeActivite) {
+		super();
+		this.nom = nom;
+		this.typeActivite = typeActivite;
+	}
+    
+    
 }

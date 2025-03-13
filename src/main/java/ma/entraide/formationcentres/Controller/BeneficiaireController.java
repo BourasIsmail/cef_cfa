@@ -1,6 +1,7 @@
 package ma.entraide.formationcentres.Controller;
 
 import ma.entraide.formationcentres.Entity.Beneficiaire;
+import ma.entraide.formationcentres.Entity.BeneficiaireRequest;
 import ma.entraide.formationcentres.Service.BeneficiaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,15 @@ public class BeneficiaireController {
         return ResponseEntity.ok(beneficiaireService.getBeneficiaireByProvince(id));
     }
     @PostMapping
-    public ResponseEntity<Beneficiaire> addBeneficiaire(@RequestBody Beneficiaire beneficiaire) {
-        return ResponseEntity.ok(beneficiaireService.saveBeneficiaire(beneficiaire));
+    public ResponseEntity<Beneficiaire> addBeneficiaire(@RequestBody BeneficiaireRequest request) {
+    	Beneficiaire beneficiaire = new Beneficiaire(
+                request.getNom(), request.getPrenom(), request.getAdresse(), 
+                request.getTelephone(), request.getDateNaissance(), request.getSexe(), 
+                request.getCin(), request.getCommune(), request.getProvince()
+            );
+        Beneficiaire savedBeneficiaire = beneficiaireService.saveBeneficiaire(beneficiaire, request.getSuivies());
+
+        return ResponseEntity.ok(savedBeneficiaire);
     }
 
     @PutMapping("/{id}")

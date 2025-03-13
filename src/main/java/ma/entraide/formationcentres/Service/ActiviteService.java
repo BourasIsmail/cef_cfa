@@ -33,7 +33,8 @@ public class ActiviteService {
     private PersonnelService personnelService;
     @Autowired
     private FiliereService filiereService;
-
+    @Autowired
+    private CentreService centreService;
     @Autowired
     private ProprieteDuCentreService proprieteDuCentreService;
 
@@ -61,20 +62,24 @@ public class ActiviteService {
             .getPersonnelById(activite.getResponsableActivite().getId());
         ProprieteDuCentre gestion = proprieteDuCentreService
             .getProprieteDuCentre(activite.getGestion().getId());
-
+        Centre centre = centreService
+                .getCentre(activite.getCentre().getId());
         // Mise à jour des relations
+        
         activite.setTypeActivite(typeActivite);
         activite.setResponsableActivite(responsable);
         activite.setGestion(gestion);
-
-        // Vérification et affectation des filières si elles existent
+        activite.setCentre(centre);
         List<Filiere> filieres = activite.getFilieres();
         List<Filiere> filieresNew = new ArrayList<>();
         for(Filiere filiere : filieres) {
-        	filieresNew.add(filiereService.findById(filiere.getId()));
-        	
+            Filiere existingFiliere = filiereService.findById(filiere.getId());
+            if (existingFiliere != null) {
+                filieresNew.add(existingFiliere);
+            }
         }
-        
+
+        activite.setFilieres(filieresNew);
 
         return activiteRepo.save(activite);
     }
@@ -101,8 +106,13 @@ public class ActiviteService {
                 .getProprieteDuCentre(activite.getGestion().getId());
             updatedActivite.setGestion(gestion);
         }
-
+        if (activite.getCentre() != null) {
+            Centre centre = centreService
+                .getCentre(activite.getCentre().getId());
+            updatedActivite.setCentre(centre);
+        }
         // Mise à jour des champs simples
+        
         updatedActivite.setNom(activite.getNom());
         updatedActivite.setDateOuverture(activite.getDateOuverture());
         updatedActivite.setCapaciteAccueil(activite.getCapaciteAccueil());

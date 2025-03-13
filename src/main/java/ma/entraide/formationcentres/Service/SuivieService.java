@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -61,12 +62,16 @@ public class SuivieService {
             Centre centre = centreRepository.findById(updatedSuivie.getCentre().getId())
                     .orElseThrow(() -> new RuntimeException("Centre non trouvée"));
             String typeActivite = activite.getTypeActivite().getName();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate birthDate = LocalDate.parse(beneficiaire.getDateNaissance(), formatter);
-            int age = (int) ChronoUnit.YEARS.between(birthDate, LocalDate.now());
+            int birthYear = Integer.parseInt(beneficiaire.getDateNaissance().substring(0, 4)); // Get the year from the string (first 4 characters)
 
-            if (("CFA".equals(typeActivite) && age <= 30) || 
-                (("CFA".equals(typeActivite) || "CEF".equals(typeActivite)) && age > 15)) {
+            // Get the current year
+            int currentYear = LocalDate.now().getYear();
+
+            // Calculate the age
+            int age = currentYear - birthYear;
+            
+
+            if (("CFA".equals(typeActivite) && age <= 30) || ("CEF".equals(typeActivite) && age > 15)) {
             
         Suivie existingSuivie = getSuivie(id);
         existingSuivie.setBeneficiaireId(updatedSuivie.getBeneficiaireId());
@@ -95,26 +100,31 @@ public class SuivieService {
         Centre centre = centreRepository.findById(dto.getCentre().getId())
                 .orElseThrow(() -> new RuntimeException("Centre non trouvée"));
         String typeActivite = activite.getTypeActivite().getName();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate birthDate = LocalDate.parse(beneficiaire.getDateNaissance(), formatter);
-        int age = (int) ChronoUnit.YEARS.between(birthDate, LocalDate.now());
+        int birthYear = Integer.parseInt(beneficiaire.getDateNaissance().substring(0, 4)); // Get the year from the string (first 4 characters)
 
-        if (("CFA".equals(typeActivite) && age <= 30) || 
-            (("CFA".equals(typeActivite) || "CEF".equals(typeActivite)) && age > 15)) {
+     // Get the current year
+     int currentYear = LocalDate.now().getYear();
+
+     // Calculate the age
+     int age = currentYear - birthYear;
+     
+
+     if (("CFA".equals(typeActivite) && age <= 30) || ("CEF".equals(typeActivite) && age > 15)) {
             
-            Suivie suivie = new Suivie();
-            suivie.setBeneficiaireId(beneficiaireId);
-            suivie.setActivite(activite);
-            suivie.setFiliere(filiere);
-            suivie.setCentre(centre);
-            suivie.setEtatDeFormation(dto.getEtatDeFormation());
-            suivie.setDateEffet(dto.getDateEffet());
-            suivie.setObservation(dto.getObservation());
+            
+    	 Suivie suivie = new Suivie();
+    	    suivie.setBeneficiaireId(beneficiaireId);
+    	    suivie.setActivite(activite);
+    	    suivie.setFiliere(filiere);
+    	    suivie.setCentre(centre);
+    	    suivie.setEtatDeFormation(dto.getEtatDeFormation());
+    	    suivie.setDateEffet(dto.getDateEffet());
+    	    suivie.setObservation(dto.getObservation());
+            
 
             // 🔥 Ajouter à la liste des suivis du bénéficiaire
             beneficiaire.getSuivies().add(suivie);
             beneficiaireRepository.save(beneficiaire);
-
             return suivie;
             
         } else {
