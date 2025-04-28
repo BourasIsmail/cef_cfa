@@ -35,15 +35,29 @@ public class BeneficiaireService {
         return beneficiaireRepository.findByBeneficiaireProvince(province);
     }
     public Beneficiaire saveBeneficiaire(Beneficiaire beneficiaire, List<Suivie> suivies) {
-    	Commune commune = communeService.getCommuneById(beneficiaire.getCommune().getId());
+        Commune commune = communeService.getCommuneById(beneficiaire.getCommune().getId());
         Province province = provinceService.getProvinceById(beneficiaire.getProvince().getId());
+
+        if(!beneficiaire.isSituationHandicap()){
+            beneficiaire.setNumCarteHandicap(null);
+        }
+
         beneficiaire.setCommune(commune);
         beneficiaire.setProvince(province);
+
+        // First save the beneficiaire to get an ID
+        Beneficiaire savedBeneficiaire = beneficiaireRepository.save(beneficiaire);
+
+        // Now that we have an ID, set it on each suivie
         for (Suivie suivie : suivies) {
-            suivie.setBeneficiaireId(beneficiaire.getId());
+            suivie.setBeneficiaireId(savedBeneficiaire.getId());
         }
-        beneficiaire.getSuivies().addAll(suivies);
-        return beneficiaireRepository.save(beneficiaire);
+
+        // Add the suivies to the saved beneficiaire
+        savedBeneficiaire.getSuivies().addAll(suivies);
+
+        // Save again to persist the relationship
+        return beneficiaireRepository.save(savedBeneficiaire);
     }
 
     public Beneficiaire updateBeneficiaire(Long id, Beneficiaire updatedBeneficiaire) {
@@ -57,6 +71,14 @@ public class BeneficiaireService {
         existingBeneficiaire.setDateNaissance(updatedBeneficiaire.getDateNaissance());
         existingBeneficiaire.setSexe(updatedBeneficiaire.getSexe());
         existingBeneficiaire.setCin(updatedBeneficiaire.getCin());
+        existingBeneficiaire.setNationalite(updatedBeneficiaire.getNationalite());
+        existingBeneficiaire.setSituationHandicap(updatedBeneficiaire.isSituationHandicap());
+        if(existingBeneficiaire.isSituationHandicap()) {
+            existingBeneficiaire.setNumCarteHandicap(updatedBeneficiaire.getNumCarteHandicap());
+        }
+        else {
+            existingBeneficiaire.setNumCarteHandicap(null);
+        }
         existingBeneficiaire.setCommune(commune);
         existingBeneficiaire.setProvince(province);
         return beneficiaireRepository.save(existingBeneficiaire);

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/typeCentre")
 public class TypeCentreController {
     @Autowired

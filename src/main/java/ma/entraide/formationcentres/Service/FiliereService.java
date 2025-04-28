@@ -50,7 +50,9 @@ public class FiliereService {
         Filiere updatedFiliere = findById(id);
         TypeActivite typeActivite = typeActiviteService.getTypeActiviteById(filiere.getTypeActivite().getId());
         updatedFiliere.setTypeActivite(typeActivite);
-        updatedFiliere.setNom(filiere.getNom());
+        updatedFiliere.setFiliere(filiere.getFiliere());
+        updatedFiliere.setSecteur(filiere.getSecteur());
+        updatedFiliere.setSpecialite(filiere.getSpecialite());
         return filiereRepo.save(updatedFiliere);
     }
 

@@ -66,15 +66,13 @@ public class CentreService {
         updatedCentre.setNomFr(centre.getNomFr());
         updatedCentre.setNomAr(centre.getNomAr());
         updatedCentre.setDateConstruction(centre.getDateConstruction());
-        updatedCentre.setTelephone(centre.getTelephone());
-        updatedCentre.setEtat(centre.getEtat());
         updatedCentre.setAdresse(centre.getAdresse());
         updatedCentre.setSuperficie(centre.getSuperficie());
-        updatedCentre.setUtilisation(centre.getUtilisation());
         updatedCentre.setElectricite(centre.getElectricite());
         updatedCentre.setTelephoneFixe(centre.getTelephoneFixe());
         updatedCentre.setInternet(centre.getInternet());
         updatedCentre.setPossession(centre.getPossession());
+        updatedCentre.setNaturePropriete(centre.getNaturePropriete());
         if("loye".equals(centre.getPossession())) {
         	updatedCentre.setMontantAllocation(centre.getMontantAllocation());
         }else {
@@ -84,9 +82,7 @@ public class CentreService {
         updatedCentre.setNbrImprimante(centre.getNbrImprimante());
         updatedCentre.setNbrPersonneConnaissanceInfo(centre.getNbrPersonneConnaissanceInfo());
         updatedCentre.setNbrPersonneOperationelApresFormation(centre.getNbrPersonneOperationelApresFormation());
-        updatedCentre.setCoutEstimationAmenagement(centre.getCoutEstimationAmenagement());
         updatedCentre.setCoutEstimationEquipement(centre.getCoutEstimationEquipement());
-        updatedCentre.setObservation(centre.getObservation());
         updatedCentre.setLatitude(centre.getLatitude());
         updatedCentre.setLongitude(centre.getLongitude());
         

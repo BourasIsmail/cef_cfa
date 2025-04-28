@@ -28,8 +28,6 @@ public class Centre {
 
     private String dateConstruction;
 
-    private String telephone;
-
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "province_id")
     private Province province;
@@ -54,16 +52,14 @@ public class Centre {
 
     private double superficie;
 
-    private String utilisation;
-
-    private String etat;
-
+    //qui paye
     private String electricite;
 
     private String telephoneFixe;
 
     private String internet;
-    
+
+    //Etat Foncier
     private String possession;
     
     private double montantAllocation;
@@ -76,32 +72,29 @@ public class Centre {
 
     private int nbrPersonneOperationelApresFormation;
 
-    private double coutEstimationAmenagement;
-
     private double coutEstimationEquipement;
-
-    private String observation;
 
     private float latitude;
 
     private float longitude;
+
+    private String naturePropriete;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) 
     private List<CentreFacture> factures = new ArrayList<>();
 
-	public Centre(String nomFr, String nomAr, TypeCentre typeCentre, String dateConstruction, String telephone,
+	public Centre(String nomFr, String nomAr, TypeCentre typeCentre, String dateConstruction,
 			Province province, Commune commune, String adresse, Personnel responsable,
-			MilieuImplantation milieuImplantation, ProprieteDuCentre proprieteDuCentre, double superficie,
-			String utilisation, String etat, String electricite, String telephoneFixe, String internet, int nbrPC,
+			MilieuImplantation milieuImplantation,String naturePropriete, ProprieteDuCentre proprieteDuCentre, double superficie,
+			 String electricite, String telephoneFixe, String internet, int nbrPC,
 			int nbrImprimante, int nbrPersonneConnaissanceInfo, int nbrPersonneOperationelApresFormation,
-			double coutEstimationAmenagement, double coutEstimationEquipement, String observation, float latitude,
+			 double coutEstimationEquipement, float latitude,
 			float longitude, String possession ) {
 		this.nomFr = nomFr;
 		this.nomAr = nomAr;
 		this.typeCentre = typeCentre;
 		this.dateConstruction = dateConstruction;
-		this.telephone = telephone;
 		this.province = province;
 		this.commune = commune;
 		this.adresse = adresse;
@@ -109,8 +102,6 @@ public class Centre {
 		this.milieuImplantation = milieuImplantation;
 		this.proprieteDuCentre = proprieteDuCentre;
 		this.superficie = superficie;
-		this.utilisation = utilisation;
-		this.etat = etat;
 		this.electricite = electricite;
 		this.telephoneFixe = telephoneFixe;
 		this.internet = internet;
@@ -119,11 +110,10 @@ public class Centre {
 		this.nbrImprimante = nbrImprimante;
 		this.nbrPersonneConnaissanceInfo = nbrPersonneConnaissanceInfo;
 		this.nbrPersonneOperationelApresFormation = nbrPersonneOperationelApresFormation;
-		this.coutEstimationAmenagement = coutEstimationAmenagement;
 		this.coutEstimationEquipement = coutEstimationEquipement;
-		this.observation = observation;
 		this.latitude = latitude;
 		this.longitude = longitude;
+        this.naturePropriete = naturePropriete;
 	}
 
     

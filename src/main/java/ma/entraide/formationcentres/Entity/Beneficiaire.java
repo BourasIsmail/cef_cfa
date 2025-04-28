@@ -32,6 +32,12 @@ public class Beneficiaire {
 
     private String cin;
 
+    private String nationalite;
+
+    private boolean situationHandicap;
+
+    private String numCarteHandicap;
+
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "commune_id")
     private Commune commune;
@@ -44,7 +50,7 @@ public class Beneficiaire {
     private List<Suivie> suivies = new ArrayList<>();
 
 	public Beneficiaire(String nom, String prenom, String adresse, String telephone, String dateNaissance, String sexe,
-			String cin, Commune commune, Province province) {
+			String cin,String nationalite,boolean situationHandicap,String numCarteHandicap, Commune commune, Province province) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
@@ -53,9 +59,13 @@ public class Beneficiaire {
 		this.dateNaissance = dateNaissance;
 		this.sexe = sexe;
 		this.cin = cin;
+        this.nationalite = nationalite;
+        this.situationHandicap = situationHandicap;
+        this.numCarteHandicap = numCarteHandicap;
 		this.commune = commune;
 		this.province = province;
 	}
 
-    
+
+
 }

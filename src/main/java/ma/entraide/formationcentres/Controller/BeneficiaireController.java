@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/beneficiaires")
 public class BeneficiaireController {
 
@@ -35,7 +34,9 @@ public class BeneficiaireController {
     	Beneficiaire beneficiaire = new Beneficiaire(
                 request.getNom(), request.getPrenom(), request.getAdresse(), 
                 request.getTelephone(), request.getDateNaissance(), request.getSexe(), 
-                request.getCin(), request.getCommune(), request.getProvince()
+                request.getCin(),request.getNationalite(),
+                request.isSituationHandicap(),request.getNumCarteHandicap(), request.getCommune(),
+                request.getProvince()
             );
         Beneficiaire savedBeneficiaire = beneficiaireService.saveBeneficiaire(beneficiaire, request.getSuivies());
 

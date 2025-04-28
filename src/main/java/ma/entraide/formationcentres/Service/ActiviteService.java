@@ -81,6 +81,13 @@ public class ActiviteService {
 
         activite.setFilieres(filieresNew);
 
+        List<Personnel> personnels = activite.getPersonnels();
+        List<Personnel> personnelsNew = new ArrayList<>();
+        for(Personnel personnel : personnels) {
+            personnelsNew.add(personnelService.getPersonnelById(personnel.getId()));
+        }
+        activite.setPersonnels(personnelsNew);
+
         return activiteRepo.save(activite);
     }
 
@@ -112,13 +119,7 @@ public class ActiviteService {
             updatedActivite.setCentre(centre);
         }
         // Mise à jour des champs simples
-        
-        updatedActivite.setNom(activite.getNom());
         updatedActivite.setDateOuverture(activite.getDateOuverture());
-        updatedActivite.setCapaciteAccueil(activite.getCapaciteAccueil());
-        updatedActivite.setSuperficie(activite.getSuperficie());
-        updatedActivite.setPartenariat(activite.getPartenariat());
-        updatedActivite.setDateSignatureConvention(activite.getDateSignatureConvention());
 
         // Mise à jour des filières si une liste est fournie
         List<Filiere> filieres = activite.getFilieres();
@@ -128,6 +129,14 @@ public class ActiviteService {
         	
         }
         updatedActivite.setFilieres(filieresNew);
+
+        List<Personnel> personnels = activite.getPersonnels();
+        List<Personnel> personnelsNew = new ArrayList<>();
+        for(Personnel personnel : personnels) {
+            personnelsNew.add(personnelService.getPersonnelById(personnel.getId()));
+        }
+        updatedActivite.setPersonnels(personnelsNew);
+        updatedActivite.setPartenariat(activite.isPartenariat());
 
         return activiteRepo.save(updatedActivite);
     }

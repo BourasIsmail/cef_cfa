@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/DetailsCentreActivite")
 public class DetailsCentreActiviteController {
     @Autowired

@@ -15,5 +15,8 @@ public class BeneficiaireRequest {
     private String cin;
     private Commune commune;
     private Province province;
+    private String nationalite;
+    private boolean situationHandicap;
+    private String numCarteHandicap;
     private List<Suivie> suivies;
 }

@@ -14,15 +14,21 @@ public class Filiere {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nom;
+    private String filiere;
+
+    private String secteur;
+
+    private String specialite;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "type_id")
     private TypeActivite typeActivite;
 
-	public Filiere(String nom, TypeActivite typeActivite) {
+	public Filiere(String specialite,String secteur,String filiere, TypeActivite typeActivite) {
 		super();
-		this.nom = nom;
+		this.filiere = filiere;
+        this.secteur = secteur;
+        this.specialite = specialite;
 		this.typeActivite = typeActivite;
 	}
     

@@ -17,9 +17,17 @@ public class Personnel {
 
     private String nomComplet;
 
-    private String grade;
+    private String telephone;
 
-    private String diplome;
+    private String email;
+
+    private String cin;
+
+    private String fonction;
+
+    private boolean vacataire;
+
+    private String niveauEtude;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "province_id")

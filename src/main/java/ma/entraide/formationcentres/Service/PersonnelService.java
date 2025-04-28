@@ -44,8 +44,16 @@ public class PersonnelService {
         newPersonnel.setCommune(commune);
         newPersonnel.setProvince(province);
         newPersonnel.setNomComplet(personnel.getNomComplet());
-        newPersonnel.setDiplome(personnel.getDiplome());
-        newPersonnel.setGrade(personnel.getGrade());
+        newPersonnel.setCin(personnel.getCin());
+        newPersonnel.setTelephone(personnel.getTelephone());
+        newPersonnel.setEmail(personnel.getEmail());
+        newPersonnel.setVacataire(personnel.isVacataire());
+        if(personnel.isVacataire()){
+            newPersonnel.setNiveauEtude(personnel.getNiveauEtude());
+        }
+        else {
+            newPersonnel.setNiveauEtude(null);
+        }
         return personnelRepo.save(newPersonnel);
     }
 
@@ -54,7 +62,9 @@ public class PersonnelService {
         Province province = provinceService.getProvinceById(personnel.getProvince().getId());
         personnel.setCommune(commune);
         personnel.setProvince(province);
-
+        if(!personnel.isVacataire()){
+            personnel.setNiveauEtude(null);
+        }
         return personnelRepo.save(personnel);
     }
 
